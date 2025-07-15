@@ -127,9 +127,33 @@ export const playlistService = {
       console.error('Erro ao buscar playlists:', error)
       throw error
     }
+  },
+
+  getPlaylistDetails: async (playlistId) => {
+    try {
+      const response = await apiClient.get(`/playlists/${playlistId}`)
+      return response.data
+    } catch (error) {
+      console.error('Erro ao buscar detalhes da playlist:', error)
+      throw error
+    }
+  },
+
+  getPlaylistTracks: async (playlistId, { limit = 50, offset = 0 } = {}) => {
+    try {
+      const response = await apiClient.get(`/playlists/${playlistId}/tracks`, {
+        params: { limit, offset }
+      })
+      return response.data
+    } catch (error) {
+      console.error('Erro ao buscar faixas da playlist:', error)
+      throw error
+    }
   }
 }
 
 export const getUserPlaylists = playlistService.getUserPlaylists
+export const getPlaylistDetails = playlistService.getPlaylistDetails
+export const getPlaylistTracks = playlistService.getPlaylistTracks
 
 export default apiClient

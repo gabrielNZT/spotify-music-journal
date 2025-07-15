@@ -1,0 +1,399 @@
+
+:root {
+  --skeleton-base: #232323;
+  --skeleton-highlight: #2a2a2a;
+  --skeleton-green-base: #1a7040;
+  --skeleton-green-highlight: #1e8047;
+  
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 16px;
+  --border-radius-full: 50%;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+}
+
+.detailContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing-md);
+  color: #fff;
+  min-height: 100vh;
+}
+
+
+.heroSection {
+  margin-bottom: var(--spacing-xxl);
+  background: linear-gradient(180deg, rgba(29, 185, 84, 0.1) 0%, transparent 100%);
+  border-radius: var(--spacing-lg);
+  padding: var(--spacing-xxl);
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContent {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.albumArtWrapper {
+  position: relative;
+  min-width: 232px;
+  min-height: 232px;
+  max-width: 232px;
+  max-height: 232px;
+}
+
+.skeletonAlbumArt {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-medium);
+}
+
+.playlistInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.skeletonPlaylistType {
+  width: 80px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+  margin-bottom: var(--spacing-xs);
+}
+
+.skeletonPlaylistTitle {
+  width: 70%;
+  height: 4rem;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-medium);
+}
+
+.skeletonPlaylistDescription {
+  width: 85%;
+  height: 1rem;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+  margin: var(--spacing-sm) 0;
+}
+
+.skeletonPlaylistMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+}
+
+.skeletonOwnerAvatar {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-full);
+}
+
+.skeletonOwnerName {
+  width: 120px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.skeletonMetaDivider {
+  width: 4px;
+  height: 4px;
+  background: var(--skeleton-base);
+  border-radius: var(--border-radius-full);
+  margin: 0 var(--spacing-xs);
+}
+
+.skeletonTrackCount {
+  width: 80px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.skeletonDuration {
+  width: 60px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+
+.controlsSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  padding: 0 var(--spacing-md);
+}
+
+.skeletonPlayButton {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(90deg, var(--skeleton-green-base) 25%, var(--skeleton-green-highlight) 50%, var(--skeleton-green-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-full);
+}
+
+.skeletonSecondaryButton {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-full);
+}
+
+
+.tracksSection {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-large);
+  padding: 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tracksHeader {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 60px;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: #b3b3b3;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.skeletonClockIcon {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
+}
+
+.trackRow {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 60px;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-small);
+  margin: 0 var(--spacing-xs);
+}
+
+.trackRow:last-child {
+  border-bottom: none;
+}
+
+.trackNumberCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeletonTrackIndex {
+  width: 20px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.trackInfo {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.trackDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+}
+
+.skeletonTrackName {
+  width: 70%;
+  height: 16px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.skeletonTrackArtist {
+  width: 50%;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+  margin-top: 2px;
+}
+
+.trackAlbumCell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.skeletonAlbumName {
+  width: 60%;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.trackActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+}
+
+.skeletonLikeButton {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+.skeletonTrackTime {
+  width: 35px;
+  height: 14px;
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-small);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .detailContainer {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+  
+  .heroSection {
+    padding: var(--spacing-lg);
+  }
+  
+  .heroContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-lg);
+  }
+  
+  .albumArtWrapper {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 200px;
+    max-height: 200px;
+  }
+  
+  .skeletonPlaylistTitle {
+    height: 2rem;
+  }
+  
+  .tracksHeader {
+    grid-template-columns: 40px 1fr 80px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .trackRow {
+    grid-template-columns: 40px 1fr 80px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .trackAlbumCell {
+    display: none;
+  }
+  
+  .tracksHeader span:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .albumArtWrapper {
+    min-width: 160px;
+    min-height: 160px;
+    max-width: 160px;
+    max-height: 160px;
+  }
+  
+  .skeletonPlaylistTitle {
+    height: 1.75rem;
+  }
+  
+  .skeletonPlaylistMeta {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .controlsSection {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .tracksHeader,
+  .trackRow {
+    padding: var(--spacing-sm);
+  }
+}

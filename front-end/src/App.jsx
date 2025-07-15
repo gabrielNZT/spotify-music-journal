@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { authService } from './services/api'
 import MainLayout from './components/layout/MainLayout'
-import { AuthCallbackPage, AuthErrorPage, DashboardPage, LoginPage } from './pages'
+import { AuthCallbackPage, AuthErrorPage, DashboardPage, LoginPage, PlaylistDetail } from './pages'
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = authService.isAuthenticated()
@@ -48,6 +48,16 @@ function App() {
               </MainLayout>
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/playlist/:id"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <PlaylistDetail />
+              </MainLayout>
+            </ProtectedRoute>
+          }
         />
           
         <Route 

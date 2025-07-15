@@ -1,6 +1,8 @@
 import styles from './PlaylistList.module.css'
+import { useNavigate } from 'react-router-dom'
 
 function PlaylistList({ playlists }) {
+  const navigate = useNavigate()
   if (!playlists || playlists.length === 0) {
     return (
       <div className={styles.emptyState}>
@@ -20,7 +22,12 @@ function PlaylistList({ playlists }) {
   return (
     <div className={styles.playlistsGrid}>
       {playlists.map((playlist) => (
-        <div key={playlist.id} className={styles.playlistCard}>
+        <div
+          key={playlist.id}
+          className={styles.playlistCard}
+          onClick={() => navigate(`/playlist/${playlist.id}`)}
+          style={{ cursor: 'pointer' }}
+        >
           <div className={styles.coverWrapper}>
             <img
               src={playlist.images?.[0]?.url || '/placeholder-playlist.jpg'}
