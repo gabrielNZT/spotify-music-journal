@@ -14,19 +14,16 @@ Defina no CSS como variáveis CSS ou em um objeto JS:
 
 ```css
 :root {
-  /* Neutros */
   --color-bg: #121212;
   --color-surface: #1E1E1E;
   --color-on-surface: #E0E0E0;
   --color-on-surface-subtle: #B3B3B3;
 
-  /* Ações */
-  --color-primary: #1DB954;       /* Spotify Green */
+  --color-primary: #1DB954;     
   --color-primary-hover: #1ED760;
   --color-secondary: #3E3E3E;
   --color-error: #E02424;
 
-  /* Feedback */
   --color-success: #28A745;
   --color-warning: #FFC107;
 }
@@ -49,10 +46,10 @@ Baseado em “Modular Scale” e “Perfect Fourth” (Tim Brown).
 ```css
 :root {
   --font-family-base: 'Inter', 'Roboto', sans-serif;
-  --font-size-base: 1rem;          /* 16px */
-  --font-size-sm: 0.875rem;        /* 14px */
-  --font-size-lg: 1.25rem;         /* 20px */
-  --font-size-xl: 1.5rem;          /* 24px */
+  --font-size-base: 1rem;        
+  --font-size-sm: 0.875rem;       
+  --font-size-lg: 1.25rem;        
+  --font-size-xl: 1.5rem;         
   --line-height-base: 1.5;
 }
 ```

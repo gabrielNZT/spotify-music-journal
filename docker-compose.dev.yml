@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: ./back-end
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - MONGO_URI=mongodb://mongo:27017/spotify-music-journal-dev
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - SPOTIFY_REDIRECT_URI=${SPOTIFY_REDIRECT_URI}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./back-end:/usr/src/app
+      - /usr/src/app/node_modules
+      - app-logs:/usr/src/app/logs
+    networks:
+      - spotify-network
+
+  mongo:
+    image: mongo:7.0-jammy
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=spotify-music-journal-dev
+    volumes:
+      - mongo-data-dev:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - spotify-network
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    ports:
+      - "8082:8081"
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+      - ME_CONFIG_BASICAUTH=false
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - spotify-network
+
+volumes:
+  mongo-data-dev:
+    driver: local
+  app-logs:
+    driver: local
+
+networks:
+  spotify-network:
+    driver: bridge

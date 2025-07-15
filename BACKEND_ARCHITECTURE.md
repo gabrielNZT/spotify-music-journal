@@ -1,6 +1,6 @@
 # **Proposta de Arquitetura de Backend e DevOps: Agregador Musical Pessoal**
 
-  * **Autor:** Engenheiro DevOps
+  * **Autor:** Vitor Gabriel Nunes Cesarino
   * **Stack Principal:** Node.js, Express.js, MongoDB (com Mongoose), Docker
   * **Data:** 14 de julho de 2025
 
@@ -55,8 +55,8 @@ Usaremos o Mongoose como ODM para modelar os dados da aplicação. As relações
         displayName: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         profileImageUrl: { type: String },
-        accessToken: { type: String, required: true }, // Encrypted
-        refreshToken: { type: String, required: true }, // Encrypted
+        accessToken: { type: String, required: true },
+        refreshToken: { type: String, required: true }, 
     }, { timestamps: true });
     ```
   * **Favorite (`favorite.model.js`):** As músicas favoritadas por um usuário.
@@ -64,7 +64,6 @@ Usaremos o Mongoose como ODM para modelar os dados da aplicação. As relações
     const favoriteSchema = new mongoose.Schema({
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         spotifyTrackId: { type: String, required: true },
-        // Optional: Cache de metadados para evitar chamadas à API
         trackName: String,
         artistName: String,
         albumImageUrl: String,
@@ -75,7 +74,7 @@ Usaremos o Mongoose como ODM para modelar os dados da aplicação. As relações
     const categorySchema = new mongoose.Schema({
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         name: { type: String, required: true },
-        favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Favorite' }] // Array de favoritos
+        favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Favorite' }]
     }, { timestamps: true });
     ```
   * **Comment (`comment.model.js`):** Comentários em músicas favoritadas.
