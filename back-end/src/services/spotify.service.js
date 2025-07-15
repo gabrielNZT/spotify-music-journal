@@ -32,13 +32,11 @@ const makeSpotifyRequest = async (userId, endpoint, options = {}) => {
 
   try {
     const accessToken = await getValidAccessToken(userId);
-
     const config = {
       method,
       url: `${SPOTIFY_BASE_URL}${endpoint}`,
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Bearer ${accessToken}`
       },
       params,
       data
