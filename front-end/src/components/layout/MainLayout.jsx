@@ -1,15 +1,30 @@
 import { Outlet } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { authService } from '../../services/api'
 import styles from './MainLayout.module.css'
 
 function MainLayout({ children }) {
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await authService.getMe()
+        setUser(response.user)
+      } catch (error) {
+        console.error('Failed to fetch user data', error)
+      }
+    }
+
+    fetchUser()
+  }, [])
+
   const handleLogout = () => {
     authService.logout()
   }
 
   return (
     <div className={styles.layoutContainer}>
-      {/* Top Navigation Bar (Desktop) */}
       <header className={styles.topNavbar}>
         <div className={styles.navbarContent}>
           <div className={styles.logoSection}>
@@ -46,6 +61,17 @@ function MainLayout({ children }) {
           </nav>
           
           <div className={styles.userSection}>
+            {user ? (
+              <div className={styles.userProfile}>
+                <img src={user.profileImageUrl} alt={user.displayName} className={styles.userAvatar} />
+                <span className={styles.userName}>{user.displayName}</span>
+              </div>
+            ) : (
+              <div className={styles.userProfile}>
+                <div className={`${styles.userAvatar} ${styles.skeleton}`} />
+                <div className={`${styles.userName} ${styles.skeleton}`} style={{ width: '100px', height: '20px' }} />
+              </div>
+            )}
             <button className={styles.logoutButton} onClick={handleLogout}>
               Sair
             </button>

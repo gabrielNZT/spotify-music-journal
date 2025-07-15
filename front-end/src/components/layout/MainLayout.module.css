@@ -124,26 +124,58 @@
 }
 
 .userSection {
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-secondary);
+}
+
+.userName {
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
+.skeleton {
+  background-color: var(--color-secondary);
+  border-radius: 4px;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .logoutButton {
-  background: var(--color-primary);
-  color: var(--spotify-text-bright);
+  background-color: var(--color-primary);
+  color: white;
   border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: 20px;
-  padding: var(--spacing-xs) var(--spacing-md);
-  font-family: var(--font-family-base);
-  font-weight: 600;
-  font-size: var(--font-size-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 80px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .logoutButton:hover {
-  background: var(--color-primary-hover);
-  transform: translateY(-1px);
+  background-color: var(--color-primary-hover);
 }
 
 .logoutButton:active {
