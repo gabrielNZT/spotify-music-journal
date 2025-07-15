@@ -1,0 +1,48 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* Spotify Variables */
+:root {
+  --spotify-green: #1db954;
+  --spotify-black: #000;
+  --spotify-dark-gray: #121212;
+  --spotify-gray: #191414;
+  --spotify-light-gray: #282828;
+  --spotify-white: #fff;
+  --spotify-text-bright: #fff;
+  --spotify-text-base: #b3b3b3;
+  --spotify-text-subdued: #6a6a6a;
+}
+
+/* Import Spotify Global Styles */
+@import './styles/spotify.css';

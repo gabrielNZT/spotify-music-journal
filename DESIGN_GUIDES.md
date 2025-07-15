@@ -14,9 +14,9 @@ Defina no CSS como variáveis CSS ou em um objeto JS:
 
 ```css
 :root {
-  --color-bg: #121212;
-  --color-surface: #1E1E1E;
-  --color-on-surface: #E0E0E0;
+  --color-bg: #191414;
+  --color-surface: #282828;
+  --color-on-surface: #FFFFFF;
   --color-on-surface-subtle: #B3B3B3;
 
   --color-primary: #1DB954;     
@@ -26,6 +26,17 @@ Defina no CSS como variáveis CSS ou em um objeto JS:
 
   --color-success: #28A745;
   --color-warning: #FFC107;
+  
+  /* Cores oficiais do Spotify */
+  --spotify-black: #000000;
+  --spotify-dark-gray: #121212;
+  --spotify-gray: #191414;
+  --spotify-light-gray: #282828;
+  --spotify-green: #1DB954;
+  --spotify-white: #FFFFFF;
+  --spotify-text-bright: #FFFFFF;
+  --spotify-text-base: #B3B3B3;
+  --spotify-text-subdued: #6A6A6A;
 }
 ````
 
