@@ -1,70 +1,48 @@
 import { useState, useEffect } from 'react'
-import { authService, musicService } from '../../services/api'
+import { getUserPlaylists } from '../../services/api'
 import styles from './DashboardPage.module.css'
-import { PlaylistCard } from '../../components'
+import PlaylistList from '../../components/PlaylistList/PlaylistList'
 
 function DashboardPage() {
-  const [user, setUser] = useState(null)
   const [playlists, setPlaylists] = useState([])
-  const [recentTracks, setRecentTracks] = useState([])
+  const [pagination, setPagination] = useState({
+    limit: 20,
+    offset: 0,
+    total: 0,
+    hasNext: false,
+    hasPrev: false
+  })
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
+
+  const fetchPlaylists = async (limit = 20, offset = 0) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const data = await getUserPlaylists({ limit, offset })
+      setPlaylists(data.playlists) // Usar data.playlists em vez de data diretamente
+      setPagination(data.pagination)
+    } catch (err) {
+      setError('Erro ao carregar suas playlists. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const loadDashboardData = async () => {
-      try {
-        setIsLoading(true)
-        setError('')
-
-        const userData = await authService.getMe()
-        setUser(userData.user)
-
-        try {
-          const playlistsData = await musicService.getUserPlaylists()
-          setPlaylists(playlistsData || [])
-        } catch (playlistError) {
-          console.log('Erro ao carregar playlists (esperado):', playlistError)
-          setPlaylists([
-            {
-              id: '1',
-              name: 'Minhas Curtidas',
-              description: 'Suas músicas curtidas',
-              images: [{ url: '/placeholder-playlist.jpg' }],
-              tracks: { total: 127 },
-              owner: { display_name: userData.user.displayName }
-            },
-            {
-              id: '2', 
-              name: 'Rock Clássico',
-              description: 'Os maiores sucessos do rock',
-              images: [{ url: '/placeholder-playlist.jpg' }],
-              tracks: { total: 84 },
-              owner: { display_name: userData.user.displayName }
-            }
-          ])
-        }
-
-        try {
-          const recentData = await musicService.getRecentlyPlayed()
-          setRecentTracks(recentData || [])
-        } catch (recentError) {
-          console.log('Erro ao carregar faixas recentes (esperado):', recentError)
-          setRecentTracks([])
-        }
-
-      } catch (error) {
-        console.error('Erro ao carregar dashboard:', error)
-        setError('Erro ao carregar seus dados. Tente novamente.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadDashboardData()
+    fetchPlaylists()
   }, [])
 
-  const handlePlaylistClick = (playlist) => {
-    console.log('Abrindo playlist:', playlist.name)
+  const handleNextPage = () => {
+    if (pagination.hasNext) {
+      fetchPlaylists(pagination.limit, pagination.offset + pagination.limit)
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (pagination.hasPrev) {
+      fetchPlaylists(pagination.limit, pagination.offset - pagination.limit)
+    }
   }
 
   if (isLoading) {
@@ -95,71 +73,34 @@ function DashboardPage() {
 
   return (
     <div className={styles.dashboardContainer}>
-      <div className={styles.header}>
-        <div className={styles.welcomeSection}>
-          <h1 className={styles.welcomeTitle}>
-            Boa tarde, {user?.displayName || 'Usuário'}!
-          </h1>
-        </div>
-      </div>
-
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Suas Playlists</h2>
+          <p className={styles.sectionSubtitle}>
+            {pagination.total} playlist{pagination.total !== 1 ? 's' : ''} encontrada{pagination.total !== 1 ? 's' : ''}
+          </p>
         </div>
+        <PlaylistList playlists={playlists} />
         
-        {playlists.length > 0 ? (
-          <div className={styles.playlistsGrid}>
-            {playlists.map((playlist) => (
-              <PlaylistCard
-                key={playlist.id}
-                playlist={playlist}
-                onClick={() => handlePlaylistClick(playlist)}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-              </svg>
-            </div>
-            <h3 className={styles.emptyTitle}>Nenhuma playlist encontrada</h3>
-            <p className={styles.emptyDescription}>
-              Suas playlists do Spotify aparecerão aqui
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Tocadas Recentemente</h2>
-        </div>
-        
-        {recentTracks.length > 0 ? (
-          <div className={styles.recentTracks}>
-            {recentTracks.map((track, index) => (
-              <div key={index} className={styles.trackItem}>
-                <div className={styles.trackInfo}>
-                  <span className={styles.trackName}>{track.name}</span>
-                  <span className={styles.artistName}>{track.artist}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-              </svg>
-            </div>
-            <h3 className={styles.emptyTitle}>Nenhuma música encontrada</h3>
-            <p className={styles.emptyDescription}>
-              Comece a ouvir música no Spotify para ver suas faixas aqui
-            </p>
+        {pagination.total > pagination.limit && (
+          <div className={styles.paginationContainer}>
+            <button 
+              className={`${styles.paginationButton} ${!pagination.hasPrev ? styles.disabled : ''}`}
+              onClick={handlePrevPage}
+              disabled={!pagination.hasPrev}
+            >
+              ← Anterior
+            </button>
+            <span className={styles.paginationInfo}>
+              {Math.floor(pagination.offset / pagination.limit) + 1} de {Math.ceil(pagination.total / pagination.limit)}
+            </span>
+            <button 
+              className={`${styles.paginationButton} ${!pagination.hasNext ? styles.disabled : ''}`}
+              onClick={handleNextPage}
+              disabled={!pagination.hasNext}
+            >
+              Próxima →
+            </button>
           </div>
         )}
       </div>

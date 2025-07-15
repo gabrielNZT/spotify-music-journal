@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001/api'
 
@@ -13,7 +13,7 @@ const apiClient = axios.create({
 // Interceptador para adicionar token de autenticação
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('spotify_token')
+    const token = localStorage.getItem('jwt_token') // Usando jwt_token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Token expirado ou inválido
-      localStorage.removeItem('spotify_token')
+      localStorage.removeItem('jwt_token') // Usando jwt_token
       window.location.href = '/login'
     }
     return Promise.reject(error)
@@ -63,23 +63,23 @@ export const authService = {
 
   // Verificar se o usuário está autenticado
   isAuthenticated: () => {
-    return !!localStorage.getItem('spotify_token')
+    return !!localStorage.getItem('jwt_token') // Usando jwt_token
   },
 
   // Fazer logout
   logout: () => {
-    localStorage.removeItem('spotify_token')
+    localStorage.removeItem('jwt_token') // Usando jwt_token
     window.location.href = '/login'
   },
 
   // Salvar token
   saveToken: (token) => {
-    localStorage.setItem('spotify_token', token)
+    localStorage.setItem('jwt_token', token) // Usando jwt_token
   },
 
   // Obter token
   getToken: () => {
-    return localStorage.getItem('spotify_token')
+    return localStorage.getItem('jwt_token') // Usando jwt_token
   }
 }
 
@@ -131,5 +131,24 @@ export const categoryService = {
     }
   }
 }
+
+// Serviços de playlists
+export const playlistService = {
+  // Obter playlists do usuário com paginação
+  getUserPlaylists: async ({ limit = 20, offset = 0 } = {}) => {
+    try {
+      const response = await apiClient.get('/playlists', {
+        params: { limit, offset }
+      })
+      return response.data // Retorna { playlists: [...], pagination: {...} }
+    } catch (error) {
+      console.error('Erro ao buscar playlists:', error)
+      throw error
+    }
+  }
+}
+
+// Função de compatibilidade (mantendo a função original)
+export const getUserPlaylists = playlistService.getUserPlaylists
 
 export default apiClient

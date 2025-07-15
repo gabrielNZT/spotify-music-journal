@@ -1,0 +1,110 @@
+.playlistsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.playlistCard {
+  background: var(--color-surface, #282828);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem 1rem 1rem;
+  transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+  min-width: 0;
+}
+
+.playlistCard:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(29,185,84,0.12);
+  background: linear-gradient(135deg, #232526 0%, #282828 100%);
+}
+
+.coverWrapper {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #191414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #191414;
+}
+
+.playlistInfo {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.playlistName {
+  font-weight: 600;
+  color: var(--spotify-text-bright, #fff);
+  font-size: 1.1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlistOwner {
+  color: var(--spotify-text-base, #b3b3b3);
+  font-size: 0.95rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlistTracks {
+  color: var(--spotify-text-subdued, #6a6a6a);
+  font-size: 0.85rem;
+  line-height: 1.1;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--spotify-text-base, #b3b3b3);
+  gap: 1rem;
+}
+
+.emptyIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--spotify-text-bright, #fff);
+}
+
+.emptyDescription {
+  font-size: 0.95rem;
+  color: var(--spotify-text-base, #b3b3b3);
+  text-align: center;
+}
