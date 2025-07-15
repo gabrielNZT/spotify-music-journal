@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { authService, musicService } from '../services/api'
-import PlaylistCard from '../components/PlaylistCard'
+import { authService, musicService } from '../../services/api'
 import styles from './DashboardPage.module.css'
+import { PlaylistCard } from '../../components'
 
 function DashboardPage() {
   const [user, setUser] = useState(null)
@@ -16,17 +16,14 @@ function DashboardPage() {
         setIsLoading(true)
         setError('')
 
-        // Carregar dados do usuário
         const userData = await authService.getMe()
         setUser(userData.user)
 
-        // Carregar playlists do usuário (será implementado na API)
         try {
           const playlistsData = await musicService.getUserPlaylists()
           setPlaylists(playlistsData || [])
         } catch (playlistError) {
           console.log('Erro ao carregar playlists (esperado):', playlistError)
-          // Usar dados mockados para desenvolvimento
           setPlaylists([
             {
               id: '1',
@@ -47,7 +44,6 @@ function DashboardPage() {
           ])
         }
 
-        // Carregar faixas recentes (será implementado na API)
         try {
           const recentData = await musicService.getRecentlyPlayed()
           setRecentTracks(recentData || [])
@@ -69,7 +65,6 @@ function DashboardPage() {
 
   const handlePlaylistClick = (playlist) => {
     console.log('Abrindo playlist:', playlist.name)
-    // Navegar para a página da playlist (será implementado)
   }
 
   if (isLoading) {
@@ -100,7 +95,6 @@ function DashboardPage() {
 
   return (
     <div className={styles.dashboardContainer}>
-      {/* Header do Dashboard */}
       <div className={styles.header}>
         <div className={styles.welcomeSection}>
           <h1 className={styles.welcomeTitle}>
@@ -109,7 +103,6 @@ function DashboardPage() {
         </div>
       </div>
 
-      {/* Seção de Playlists */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Suas Playlists</h2>
@@ -140,7 +133,6 @@ function DashboardPage() {
         )}
       </div>
 
-      {/* Seção de Faixas Tocadas Recentemente */}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Tocadas Recentemente</h2>

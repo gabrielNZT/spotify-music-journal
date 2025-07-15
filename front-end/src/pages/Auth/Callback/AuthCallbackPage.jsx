@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { authService } from '../services/api'
+import { authService } from '../../../services/api'
 import styles from './AuthCallbackPage.module.css'
 
 function AuthCallbackPage() {

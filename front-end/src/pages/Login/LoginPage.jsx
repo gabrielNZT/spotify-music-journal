@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { authService } from '../services/api'
+import { authService } from '../../services/api'
 import styles from './LoginPage.module.css'
 
 function LoginPage() {

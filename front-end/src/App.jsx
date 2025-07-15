@@ -1,11 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { authService } from './services/api'
-import LoginPage from './pages/LoginPage'
-import DashboardPage from './pages/DashboardPage'
-import HomePage from './pages/HomePage'
-import AuthCallbackPage from './pages/AuthCallbackPage'
-import AuthErrorPage from './pages/AuthErrorPage'
 import MainLayout from './components/layout/MainLayout'
+import { AuthCallbackPage, AuthErrorPage, DashboardPage, LoginPage } from './pages'
 
 function ProtectedRoute({ children }) {
   const isAuthenticated = authService.isAuthenticated()
@@ -31,7 +27,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Rotas de autenticação */}
         <Route 
           path="/login" 
           element={
@@ -41,11 +36,9 @@ function App() {
           } 
         />
         
-        {/* Rotas de callback */}
         <Route path="/auth/success" element={<AuthCallbackPage />} />
         <Route path="/auth/error" element={<AuthErrorPage />} />
         
-        {/* Rotas protegidas com layout */}
         <Route 
           path="/dashboard" 
           element={
@@ -56,19 +49,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        
-        <Route 
-          path="/home" 
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <HomePage />
-              </MainLayout>
-            </ProtectedRoute>
-          } 
-        />
-        
-        {/* Rota raiz - redireciona baseado na autenticação */}
+          
         <Route 
           path="/" 
           element={
@@ -78,7 +59,6 @@ function App() {
           } 
         />
         
-        {/* Rota 404 */}
         <Route 
           path="*" 
           element={<Navigate to="/" replace />} 
