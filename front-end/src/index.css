@@ -1,4 +1,4 @@
-/* Reset CSS */
+
 * {
   margin: 0;
   padding: 0;
@@ -31,7 +31,7 @@ input {
   font-family: inherit;
 }
 
-/* Spotify Variables */
+
 :root {
   --spotify-green: #1db954;
   --spotify-black: #000;
@@ -44,5 +44,5 @@ input {
   --spotify-text-subdued: #6a6a6a;
 }
 
-/* Import Spotify Global Styles */
+
 @import './styles/spotify.css';

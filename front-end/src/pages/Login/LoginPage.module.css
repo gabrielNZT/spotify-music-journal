@@ -1,4 +1,4 @@
-/* Spotify Official Colors */
+
 :root {
   --spotify-green: #1DB954;
   --spotify-black: #191414;
@@ -152,7 +152,7 @@
   margin: 0;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .loginContainer {
     padding: 16px;

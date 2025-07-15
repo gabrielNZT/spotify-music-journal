@@ -1,4 +1,4 @@
-/* MainLayout.module.css */
+
 
 /* ============================================
    DESIGN TOKENS
@@ -48,7 +48,7 @@
    ============================================ */
 
 .topNavbar {
-  display: none; /* Oculto por padrão (mobile-first) */
+  display: none; 
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-secondary);
   padding: 0 var(--spacing-lg);
@@ -432,7 +432,7 @@
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Desktop: 769px e acima */
+
 @media (min-width: 769px) {
   .topNavbar {
     display: block;
@@ -460,7 +460,7 @@
   }
 }
 
-/* Tablet: 481px até 768px */
+
 @media (max-width: 768px) {
   .topNavbar {
     display: none;
@@ -483,7 +483,7 @@
   }
 }
 
-/* Mobile: até 480px */
+
 @media (max-width: 480px) {
   .mobileHeader {
     display: flex;

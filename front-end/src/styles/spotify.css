@@ -1,6 +1,6 @@
-/* Spotify Global Styles */
 
-/* Layout Components */
+
+
 .spotify-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -28,7 +28,7 @@
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
 
-/* Cards */
+
 .spotify-card {
   background: #181818;
   border-radius: 8px;
@@ -45,7 +45,7 @@
   padding: 24px;
 }
 
-/* Buttons */
+
 .spotify-btn {
   border: none;
   border-radius: 500px;
@@ -90,7 +90,7 @@
   color: var(--spotify-text-bright);
 }
 
-/* Typography */
+
 .spotify-heading-1 {
   font-size: 32px;
   font-weight: 900;
@@ -127,7 +127,7 @@
   color: var(--spotify-text-subdued);
 }
 
-/* Navigation */
+
 .spotify-nav {
   background: var(--spotify-black);
   padding: 16px 0;
@@ -164,7 +164,7 @@
   margin-right: 16px;
 }
 
-/* Layout */
+
 .spotify-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -194,7 +194,7 @@
   padding: 32px;
 }
 
-/* Forms */
+
 .spotify-form-group {
   margin-bottom: 16px;
 }
@@ -227,7 +227,7 @@
   color: var(--spotify-text-base);
 }
 
-/* Utilities */
+
 .spotify-hidden {
   display: none;
 }
@@ -244,7 +244,7 @@
   border: 0;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .spotify-layout {
     grid-template-columns: 1fr;

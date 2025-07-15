@@ -1,4 +1,4 @@
-/* PlaylistCard.module.css */
+
 
 .playlistCard {
   background: var(--color-surface, #282828);
@@ -90,7 +90,7 @@
   width: 16px;
   height: 16px;
   fill: var(--spotify-black, #000000);
-  margin-left: 2px; /* Alinhamento visual do ícone play */
+  margin-left: 2px; 
 }
 
 .playlistInfo {
@@ -108,7 +108,7 @@
   margin: 0;
   line-height: 1.3;
   
-  /* Texto com ellipsis para nomes longos */
+  
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -125,7 +125,7 @@
   margin: 0;
   line-height: 1.4;
   
-  /* Texto com ellipsis para descrições longas */
+  
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -142,7 +142,7 @@
   font-weight: 400;
   font-size: var(--font-size-sm, 0.875rem);
   color: var(--spotify-text-subdued, #6A6A6A);
-  margin-top: auto; /* Empurra para o final do card */
+  margin-top: auto; 
 }
 
 .trackCount,
@@ -158,7 +158,7 @@
   flex-shrink: 0;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .playlistCard {
     padding: var(--spacing-sm, 12px);

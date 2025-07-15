@@ -1,4 +1,4 @@
-/* DashboardPage.module.css */
+
 
 /* ============================================
    DESIGN TOKENS (Seguindo DESIGN_GUIDES.md)
@@ -354,7 +354,7 @@
    RESPONSIVIDADE
    ============================================ */
 
-/* Tablet */
+
 @media (max-width: 768px) {
   .dashboardContainer {
     padding: var(--spacing-lg) var(--spacing-md);
@@ -376,7 +376,7 @@
   }
 }
 
-/* Mobile */
+
 @media (max-width: 480px) {
   .dashboardContainer {
     padding: var(--spacing-md) var(--spacing-sm);
