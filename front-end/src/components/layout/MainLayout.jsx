@@ -79,7 +79,6 @@ function MainLayout({ children }) {
         </div>
       </header>
 
-      {/* Mobile Sidebar */}
       <div className={styles.mobileSidebar}>
         <div className={styles.logoSection}>
           <h1 className={styles.logoTitle}>Music Journal</h1>
