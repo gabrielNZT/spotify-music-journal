@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import SpotifyToast from '../../components/SpotifyToast'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPlaylistDetails, getPlaylistTracks } from '../../services/api'
+import { playTrack } from '../../services/player'
 import { formatCompletePlaylistData, formatTrackData, getBestImage } from '../../utils/spotifyDataFormatter'
 import styles from './PlaylistDetail.module.css'
 import PlaylistDetailSkeleton from './PlaylistDetailSkeleton'
@@ -10,6 +12,7 @@ function PlaylistDetail() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [toast, setToast] = useState(null)
   const [playlist, setPlaylist] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(null)
@@ -24,13 +27,65 @@ function PlaylistDetail() {
     e.target.src = defaultImage
   }
 
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying)
+  const handlePlayPause = async () => {
+    if (!playlist) return
+    try {
+      await playTrack({
+        contextUri: `spotify:playlist:${playlist.id}`
+      })
+      setIsPlaying(true)
+    } catch (err) {
+
+      if (err?.response?.data?.error.includes('No active device found')) {
+        setToast({
+          message: (
+            <>
+              <strong>Nenhum dispositivo Spotify está ativo.</strong><br/>
+              Para ouvir músicas, abra o Spotify em algum dispositivo (web, desktop ou mobile) e tente novamente.<br/>
+              <span style={{fontSize: '0.95em', color: '#b3b3b3', display: 'block', marginTop: 8}}>
+                Dica: Abra <b>open.spotify.com</b> em outra aba e dê play em qualquer música para ativar o Web Player.
+              </span>
+            </>
+          ),
+          type: 'error',
+        })
+        return 
+      } else {
+        setError('Erro ao tentar reproduzir a playlist')
+      }
+    }
   }
 
-  const handleTrackPlay = (trackId) => {
+  const handleTrackPlay = async (trackId) => {
     setCurrentTrack(trackId)
-    setIsPlaying(true)
+    try {
+      const track = playlist.tracks.find(t => t.id === trackId)
+      if (!track) return
+      await playTrack({
+        contextUri: `spotify:playlist:${playlist.id}`,
+        offset: { position: playlist.tracks.findIndex(t => t.id === trackId) }
+      })
+      setIsPlaying(true)
+    } catch (err) {
+            console.log(err.response)
+      if (err?.response?.data?.error.includes('No active device found')) {
+        setToast({
+          message: (
+            <>
+              <strong>Nenhum dispositivo Spotify está ativo.</strong><br/>
+              Para ouvir músicas, abra o Spotify em algum dispositivo (web, desktop ou mobile) e tente novamente.<br/>
+              <span style={{fontSize: '0.95em', color: '#b3b3b3', display: 'block', marginTop: 8}}>
+                Dica: Abra <b>open.spotify.com</b> em outra aba e dê play em qualquer música para ativar o Web Player.
+              </span>
+            </>
+          ),
+          type: 'error',
+        })
+        return 
+      } else {
+        setError('Erro ao tentar reproduzir a faixa')
+      }
+    }
   }
 
   const fetchPlaylistData = async (loadMore = false) => {
@@ -50,7 +105,6 @@ function PlaylistDetail() {
 
       const offset = loadMore && pagination ? pagination.offset + pagination.limit : 0
 
-      // Busca detalhes da playlist e suas faixas em paralelo
       const promises = [
         !loadMore ? getPlaylistDetails(id) : Promise.resolve(null),
         getPlaylistTracks(id, { limit: 50, offset })
@@ -65,14 +119,7 @@ function PlaylistDetail() {
       const playlistData = loadMore ? playlist : playlistDetailsResponse.playlist
       const tracksData = playlistTracksResponse
 
-      // Debug logs (remover em produção)
-      if (!loadMore) {
-        console.log('Dados da playlist recebidos:', playlistData)
-      }
-      console.log('Dados das faixas recebidos:', tracksData)
-
       if (loadMore) {
-        // Adiciona novas faixas às existentes
         const newTracks = (tracksData?.tracks || [])
           .map(formatTrackData)
           .filter(Boolean)
@@ -84,7 +131,6 @@ function PlaylistDetail() {
         }))
         setPagination(tracksData?.pagination || null)
       } else {
-        // Formata os dados usando as funções utilitárias
         const formattedPlaylist = formatCompletePlaylistData(playlistData, tracksData)
         
         console.log('Playlist formatada:', formattedPlaylist)
@@ -95,14 +141,12 @@ function PlaylistDetail() {
     } catch (err) {
       console.error('Erro ao carregar playlist:', err)
       
-      // Trata diferentes tipos de erro
       if (err.response?.status === 404) {
         setError('Playlist não encontrada')
       } else if (err.response?.status === 403) {
         setError('Acesso negado a esta playlist')
       } else if (err.response?.status === 401) {
         setError('Sessão expirada. Faça login novamente.')
-        // Redireciona para login após um delay
         setTimeout(() => navigate('/login'), 2000)
       } else {
         setError('Erro ao carregar a playlist. Tente novamente.')
@@ -117,7 +161,6 @@ function PlaylistDetail() {
     fetchPlaylistData()
   }, [id])
 
-  // Scroll infinito usando IntersectionObserver
   useEffect(() => {
     if (!pagination?.hasNext || loadingMoreTracks || loading) return
 
@@ -143,7 +186,6 @@ function PlaylistDetail() {
     }
   }, [pagination, loadingMoreTracks, loading])
 
-  // Função para carregar mais faixas
   const loadMoreTracks = () => {
     if (pagination?.hasNext && !loadingMoreTracks) {
       fetchPlaylistData(true).finally(() => {
@@ -154,53 +196,67 @@ function PlaylistDetail() {
     }
   }
 
-  // Função para retry em caso de erro
   const handleRetry = () => {
     fetchPlaylistData()
   }
 
+
+  const handleToastClose = () => setToast(null)
+
   if (loading) return <PlaylistDetailSkeleton />
 
+
   if (error) {
+    if (toast && toast.type === 'error' && typeof toast.message === 'object') {
+      return <>{toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}</>
+    }
     return (
-      <div className={styles.errorContainer}>
-        <div className={styles.errorContent}>
-          <h2 className={styles.errorTitle}>Ops! Algo deu errado</h2>
-          <p className={styles.errorMessage}>{error}</p>
-          <button 
-            className={styles.retryButton}
-            onClick={handleRetry}
-          >
-            Tentar Novamente
-          </button>
+      <>
+        {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}
+        <div className={styles.errorContainer}>
+          <div className={styles.errorContent}>
+            <h2 className={styles.errorTitle}>Ops! Algo deu errado</h2>
+            <p className={styles.errorMessage}>{error}</p>
+            <button 
+              className={styles.retryButton}
+              onClick={handleRetry}
+            >
+              Tentar Novamente
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
   if (!playlist) {
     return (
-      <div className={styles.errorContainer}>
-        <div className={styles.errorContent}>
-          <h2 className={styles.errorTitle}>Playlist não encontrada</h2>
-          <p className={styles.errorMessage}>
-            A playlist solicitada não existe ou não está disponível.
-          </p>
-          <button 
-            className={styles.retryButton}
-            onClick={() => navigate('/dashboard')}
-          >
-            Voltar ao Dashboard
-          </button>
+      <>
+        {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}
+        <div className={styles.errorContainer}>
+          <div className={styles.errorContent}>
+            <h2 className={styles.errorTitle}>Playlist não encontrada</h2>
+            <p className={styles.errorMessage}>
+              A playlist solicitada não existe ou não está disponível.
+            </p>
+            <button 
+              className={styles.retryButton}
+              onClick={() => navigate('/dashboard')}
+            >
+              Voltar ao Dashboard
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
   if (loading) return <PlaylistDetailSkeleton />
 
   return (
-    <div className={styles.detailContainer}>
+    <>
+      {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}
+      <div className={styles.detailContainer}>
       {/* Hero Section com melhor hierarquia visual */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
@@ -358,7 +414,6 @@ function PlaylistDetail() {
                 </div>
               ))}
               
-              {/* Indicador de carregamento automático e sentinela para scroll infinito */}
               {pagination?.hasNext && (
                 <div ref={loadMoreRef} className={styles.loadMoreContainer}>
                   {loadingMoreTracks && (
@@ -378,6 +433,7 @@ function PlaylistDetail() {
         </div>
       </section>
     </div>
+=    </>
   )
 }
 
