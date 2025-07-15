@@ -1,0 +1,180 @@
+/* PlaylistCard.module.css */
+
+.playlistCard {
+  background: var(--color-surface, #282828);
+  border-radius: 8px;
+  padding: var(--spacing-md, 16px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.playlistCard:hover {
+  background: var(--color-light-gray, #3E3E3E);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.playlistCard:hover .playOverlay {
+  opacity: 1;
+}
+
+.coverContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: var(--spacing-md, 16px);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-secondary, #3E3E3E);
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.playlistCard:hover .coverImage {
+  transform: scale(1.05);
+}
+
+.coverPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-secondary, #3E3E3E);
+}
+
+.placeholderIcon {
+  width: 48px;
+  height: 48px;
+  fill: var(--spotify-text-subdued, #6A6A6A);
+}
+
+.playOverlay {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.playButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary, #1DB954);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.playButton:hover {
+  background: var(--color-primary-hover, #1ED760);
+  transform: scale(1.05);
+}
+
+.playButton svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--spotify-black, #000000);
+  margin-left: 2px; /* Alinhamento visual do ícone play */
+}
+
+.playlistInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 8px);
+}
+
+.playlistName {
+  font-family: var(--font-family-base, 'Inter', sans-serif);
+  font-weight: 700;
+  font-size: var(--font-size-base, 1rem);
+  color: var(--spotify-text-bright, #FFFFFF);
+  margin: 0;
+  line-height: 1.3;
+  
+  /* Texto com ellipsis para nomes longos */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlistDescription {
+  font-family: var(--font-family-base, 'Roboto', sans-serif);
+  font-weight: 400;
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--spotify-text-base, #B3B3B3);
+  margin: 0;
+  line-height: 1.4;
+  
+  /* Texto com ellipsis para descrições longas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlistMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs, 8px);
+  font-family: var(--font-family-base, 'Roboto', sans-serif);
+  font-weight: 400;
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--spotify-text-subdued, #6A6A6A);
+  margin-top: auto; /* Empurra para o final do card */
+}
+
+.trackCount,
+.ownerName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.separator {
+  color: var(--spotify-text-subdued, #6A6A6A);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .playlistCard {
+    padding: var(--spacing-sm, 12px);
+  }
+  
+  .playlistName {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+  
+  .playButton {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .playButton svg {
+    width: 14px;
+    height: 14px;
+  }
+}

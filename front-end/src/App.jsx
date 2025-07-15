@@ -7,7 +7,6 @@ import AuthCallbackPage from './pages/AuthCallbackPage'
 import AuthErrorPage from './pages/AuthErrorPage'
 import MainLayout from './components/layout/MainLayout'
 
-// Componente para rotas protegidas
 function ProtectedRoute({ children }) {
   const isAuthenticated = authService.isAuthenticated()
   
@@ -18,7 +17,6 @@ function ProtectedRoute({ children }) {
   return children
 }
 
-// Componente para rotas de autenticação (só acessível se não estiver logado)
 function AuthRoute({ children }) {
   const isAuthenticated = authService.isAuthenticated()
   
