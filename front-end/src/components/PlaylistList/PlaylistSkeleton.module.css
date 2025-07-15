@@ -1,0 +1,51 @@
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface, #282828);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 20px 16px 16px 16px;
+  align-items: center;
+  gap: 16px;
+  min-height: 240px;
+  animation: skeleton-fadein 0.6s;
+}
+
+.skeletonCover {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #232323 25%, #2c2c2c 37%, #232323 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.2s infinite linear;
+}
+
+.skeletonInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #232323 25%, #2c2c2c 37%, #232323 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.2s infinite linear;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes skeleton-fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

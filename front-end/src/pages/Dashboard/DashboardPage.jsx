@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getUserPlaylists } from '../../services/api'
 import styles from './DashboardPage.module.css'
 import PlaylistList from '../../components/PlaylistList/PlaylistList'
+import PlaylistSkeleton from '../../components/PlaylistList/PlaylistSkeleton'
 
 function DashboardPage() {
   const [playlists, setPlaylists] = useState([])
@@ -26,6 +27,7 @@ function DashboardPage() {
       setError('Erro ao carregar suas playlists. Tente novamente.')
     } finally {
       setIsLoading(false)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
@@ -47,9 +49,18 @@ function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
-        <p className={styles.loadingText}>Carregando suas playlists...</p>
+      <div className={styles.dashboardContainer}>
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Suas Playlists</h2>
+            <p className={styles.sectionSubtitle}>Carregando playlists...</p>
+          </div>
+          <div className={styles.playlistsGrid}>
+            {Array.from({ length: 20 }).map((_, i) => (
+              <PlaylistSkeleton key={i} />
+            ))}
+          </div>
+        </div>
       </div>
     )
   }
