@@ -11,10 +11,10 @@ function LoginPage() {
     setError('')
     
     try {
-      // Obter URL de autenticação do backend
+      
       const { authUrl } = await authService.getSpotifyAuthUrl()
       
-      // Redirecionar para o Spotify
+      
       window.location.href = authUrl
     } catch (error) {
       console.error('Erro ao iniciar login:', error)
@@ -26,7 +26,7 @@ function LoginPage() {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginBox}>
-        {/* Logo do Spotify */}
+        
         <div className={styles.logo}>
           <svg 
             className={styles.logoSvg}
@@ -37,24 +37,24 @@ function LoginPage() {
           </svg>
         </div>
 
-        {/* Título */}
+        
         <h1 className={styles.title}>
           Entrar no Spotify
         </h1>
 
-        {/* Subtítulo */}
+        
         <p className={styles.subtitle}>
           Conecte sua conta do Spotify para começar a organizar sua biblioteca musical
         </p>
 
-        {/* Mensagem de erro */}
+        
         {error && (
           <div className={styles.errorMessage}>
             {error}
           </div>
         )}
 
-        {/* Botão de Login com Spotify */}
+        
         <button 
           className={styles.loginButton}
           onClick={handleSpotifyLogin}
@@ -75,13 +75,13 @@ function LoginPage() {
           )}
         </button>
 
-        {/* Instruções básicas */}
+        
         <p className={styles.instructions}>
           Ao continuar, você concorda com nossos Termos de Serviço e Política de Privacidade.
           Este aplicativo acessará sua biblioteca do Spotify para ajudar você a organizar e anotar suas músicas.
         </p>
 
-        {/* Informações sobre a aplicação */}
+        
         <div className={styles.appInfo}>
           <h2 className={styles.appTitle}>Music Journal</h2>
           <p className={styles.appDescription}>

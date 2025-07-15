@@ -8,7 +8,7 @@ const allowedOrigins = [
 
 const corsConfig = {
   origin: function (origin, callback) {
-    // Permite requisições sem origin (como Postman, apps mobile, etc)
+    
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) !== -1) {

@@ -20,7 +20,7 @@ function DashboardPage() {
     setError(null)
     try {
       const data = await getUserPlaylists({ limit, offset })
-      setPlaylists(data.playlists) // Usar data.playlists em vez de data diretamente
+      setPlaylists(data.playlists) 
       setPagination(data.pagination)
     } catch (err) {
       setError('Erro ao carregar suas playlists. Tente novamente.')

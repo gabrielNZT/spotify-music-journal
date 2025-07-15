@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001/api'
 
-// Configuração do axios
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -10,10 +9,9 @@ const apiClient = axios.create({
   },
 })
 
-// Interceptador para adicionar token de autenticação
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('jwt_token') // Usando jwt_token
+    const token = localStorage.getItem('jwt_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -24,22 +22,18 @@ apiClient.interceptors.request.use(
   }
 )
 
-// Interceptador para tratar respostas
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expirado ou inválido
-      localStorage.removeItem('jwt_token') // Usando jwt_token
+      localStorage.removeItem('jwt_token')
       window.location.href = '/login'
     }
     return Promise.reject(error)
   }
 )
 
-// Serviços de autenticação
 export const authService = {
-  // Obter URL de autenticação do Spotify
   getSpotifyAuthUrl: async () => {
     try {
       const response = await apiClient.get('/auth/spotify/url')
@@ -50,7 +44,6 @@ export const authService = {
     }
   },
 
-  // Obter dados do usuário autenticado
   getMe: async () => {
     try {
       const response = await apiClient.get('/auth/me')
@@ -61,31 +54,25 @@ export const authService = {
     }
   },
 
-  // Verificar se o usuário está autenticado
   isAuthenticated: () => {
-    return !!localStorage.getItem('jwt_token') // Usando jwt_token
+    return !!localStorage.getItem('jwt_token')
   },
 
-  // Fazer logout
   logout: () => {
-    localStorage.removeItem('jwt_token') // Usando jwt_token
+    localStorage.removeItem('jwt_token')
     window.location.href = '/login'
   },
 
-  // Salvar token
   saveToken: (token) => {
-    localStorage.setItem('jwt_token', token) // Usando jwt_token
+    localStorage.setItem('jwt_token', token)
   },
 
-  // Obter token
   getToken: () => {
-    return localStorage.getItem('jwt_token') // Usando jwt_token
+    return localStorage.getItem('jwt_token')
   }
 }
 
-// Serviços para outras funcionalidades (placeholder para futuras implementações)
 export const musicService = {
-  // Obter músicas recentes
   getRecentTracks: async () => {
     try {
       const response = await apiClient.get('/tracks/recent')
@@ -96,7 +83,6 @@ export const musicService = {
     }
   },
 
-  // Obter favoritas
   getFavorites: async () => {
     try {
       const response = await apiClient.get('/curation/favorites')
@@ -109,7 +95,6 @@ export const musicService = {
 }
 
 export const categoryService = {
-  // Obter categorias do usuário
   getCategories: async () => {
     try {
       const response = await apiClient.get('/curation/categories')
@@ -120,7 +105,6 @@ export const categoryService = {
     }
   },
 
-  // Criar nova categoria
   createCategory: async (categoryData) => {
     try {
       const response = await apiClient.post('/curation/categories', categoryData)
@@ -132,15 +116,13 @@ export const categoryService = {
   }
 }
 
-// Serviços de playlists
 export const playlistService = {
-  // Obter playlists do usuário com paginação
   getUserPlaylists: async ({ limit = 20, offset = 0 } = {}) => {
     try {
       const response = await apiClient.get('/playlists', {
         params: { limit, offset }
       })
-      return response.data // Retorna { playlists: [...], pagination: {...} }
+      return response.data
     } catch (error) {
       console.error('Erro ao buscar playlists:', error)
       throw error
@@ -148,7 +130,6 @@ export const playlistService = {
   }
 }
 
-// Função de compatibilidade (mantendo a função original)
 export const getUserPlaylists = playlistService.getUserPlaylists
 
 export default apiClient

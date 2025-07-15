@@ -19,7 +19,7 @@ function AuthCallbackPage() {
       }
 
       if (token) {
-        // Salvar token e redirecionar para dashboard
+        
         authService.saveToken(token)
         navigate('/dashboard')
       } else {

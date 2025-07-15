@@ -34,7 +34,7 @@ function MainLayout({ children }) {
 
   return (
     <div className={styles.layoutContainer}>
-      {/* Mobile Header */}
+      
       <header className={styles.mobileHeader}>
         <button 
           className={styles.mobileMenuButton}
@@ -48,10 +48,10 @@ function MainLayout({ children }) {
         
         <h1 className={styles.mobileHeaderTitle}>Music Journal</h1>
         
-        <div style={{ width: '32px' }} /> {/* Spacer for centering */}
+        <div style={{ width: '32px' }} /> 
       </header>
 
-      {/* Overlay */}
+      
       {isSidebarOpen && (
         <div 
           className={styles.overlay}
@@ -60,7 +60,7 @@ function MainLayout({ children }) {
         />
       )}
 
-      {/* Desktop Top Navbar */}
+      
       <header className={styles.topNavbar}>
         <div className={styles.navbarContent}>
           <div className={styles.logoSection}>
@@ -179,7 +179,7 @@ function MainLayout({ children }) {
         </nav>
       </div>
 
-      {/* Main Content */}
+      
       <main className={styles.mainContent}>
         {children || <Outlet />}
       </main>
