@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const connectDB = require('./src/config/database');
 const corsConfig = require('./src/config/cors');
@@ -50,7 +51,8 @@ app.use((req, res, next) => {
 
 app.use(globalErrorHandler);
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   logger.info(`Server running on port ${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV}`);
+  logger.info('Server accepting connections on all interfaces (0.0.0.0)');
 });
