@@ -1,8 +1,6 @@
 
 
-/* ============================================
-   DESIGN TOKENS (Seguindo DESIGN_GUIDES.md)
-   ============================================ */
+
 
 .dashboardContainer {
   --color-bg: #191414;
@@ -31,9 +29,7 @@
   --line-height-base: 1.5;
 }
 
-/* ============================================
-   LAYOUT PRINCIPAL
-   ============================================ */
+
 
 .dashboardContainer {
   padding: var(--spacing-xl) var(--spacing-lg);
@@ -43,9 +39,7 @@
   font-family: var(--font-family-base);
 }
 
-/* ============================================
-   HEADER
-   ============================================ */
+
 
 .header {
   margin-bottom: var(--spacing-xl);
@@ -68,9 +62,7 @@
   line-height: 1.2;
 }
 
-/* ============================================
-   SEÇÕES
-   ============================================ */
+
 
 .section {
   margin-bottom: var(--spacing-xl);
@@ -92,9 +84,7 @@
   line-height: 1.3;
 }
 
-/* ============================================
-   GRID DE PLAYLISTS
-   ============================================ */
+
 
 .playlistsGrid {
   display: grid;
@@ -103,9 +93,7 @@
   margin-top: var(--spacing-lg);
 }
 
-/* ============================================
-   FAIXAS RECENTES
-   ============================================ */
+
 
 .recentTracks {
   display: flex;
@@ -149,9 +137,7 @@
   line-height: 1.4;
 }
 
-/* ============================================
-   ESTADOS VAZIOS
-   ============================================ */
+
 
 .emptyState {
   display: flex;
@@ -197,9 +183,7 @@
   max-width: 400px;
 }
 
-/* ============================================
-   LOADING STATE
-   ============================================ */
+
 
 .loadingContainer {
   display: flex;
@@ -234,9 +218,7 @@
   line-height: var(--line-height-base);
 }
 
-/* ============================================
-   ERROR STATE
-   ============================================ */
+
 
 .errorContainer {
   display: flex;
@@ -296,9 +278,7 @@
   transform: translateY(0);
 }
 
-/* ============================================
-   PAGINAÇÃO
-   ============================================ */
+
 
 .paginationContainer {
   display: flex;
@@ -350,9 +330,7 @@
   margin-top: var(--spacing-xs);
 }
 
-/* ============================================
-   RESPONSIVIDADE
-   ============================================ */
+
 
 
 @media (max-width: 768px) {
