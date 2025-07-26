@@ -252,16 +252,17 @@ function PlaylistDetail() {
     <>
       {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}
       <div className={styles.detailContainer}>
-        {/* Hero Section com melhor hierarquia visual */}
         <section className={styles.heroSection}>
           <div className={styles.heroContent}>
             <div className={styles.albumArtWrapper}>
-              <img
-                src={playlist.image || defaultImage}
-                alt={playlist.name}
-                className={styles.albumArt}
-                onError={handleImageError}
-              />
+              <div className={styles.albumArtContainer}>
+                <img
+                  src={playlist.image || defaultImage}
+                  alt={playlist.name}
+                  className={styles.albumArt}
+                  onError={handleImageError}
+                />
+              </div>
               <div className={styles.albumArtShadow}></div>
             </div>
 
