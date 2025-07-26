@@ -104,10 +104,6 @@
   transition: transform var(--transition-medium);
 }
 
-.albumArt:hover {
-  transform: scale(1.02);
-}
-
 .albumArtShadow {
   position: absolute;
   top: 0;
@@ -137,7 +133,7 @@
 }
 
 .playlistTitle {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.5rem, 4vw, 3rem);
   font-weight: 900;
   line-height: 1.1;
   margin: 0;
