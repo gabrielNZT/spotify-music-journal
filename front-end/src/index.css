@@ -1,3 +1,5 @@
+@import './styles/spotify.css';
+
 
 * {
   margin: 0;
@@ -43,6 +45,3 @@ input {
   --spotify-text-base: #b3b3b3;
   --spotify-text-subdued: #6a6a6a;
 }
-
-
-@import './styles/spotify.css';

@@ -176,18 +176,18 @@ export const getBestImage = (images, preferredSize = 'medium') => {
   const sortedImages = [...images].sort((a, b) => (b.width || 0) - (a.width || 0))
   
   switch (preferredSize) {
-    case 'small':
-
+    case 'small': {
       return sortedImages[sortedImages.length - 1]?.url || null
-    case 'large':
-
+    }
+    case 'large': {
       return sortedImages[0]?.url || null
+    }
     case 'medium':
-    default:
-
+    default: {
       const mediumImage = sortedImages.find(img => 
         img.width && img.width >= 200 && img.width <= 400
       )
       return mediumImage?.url || sortedImages[Math.floor(sortedImages.length / 2)]?.url || null
+    }
   }
 }
