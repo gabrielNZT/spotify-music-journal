@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { authService } from '../../services/api'
 import styles from './MainLayout.module.css'
@@ -6,6 +6,9 @@ import styles from './MainLayout.module.css'
 function MainLayout({ children }) {
   const [user, setUser] = useState(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const location = useLocation()
+  const [activeMenu, setActiveMenu] = useState('/dashboard')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,9 +19,12 @@ function MainLayout({ children }) {
         console.error('Failed to fetch user data', error)
       }
     }
-
     fetchUser()
   }, [])
+
+  useEffect(() => {
+    setActiveMenu(location.pathname)
+  }, [location.pathname])
 
   const handleLogout = () => {
     authService.logout()
@@ -70,28 +76,43 @@ function MainLayout({ children }) {
           <nav className={styles.desktopNavigation}>
             <ul className={styles.desktopNavList}>
               <li>
-                <a href="/dashboard" className={styles.desktopNavLink}>
+                <button
+                  type="button"
+                  className={`${styles.desktopNavLink} ${activeMenu === '/dashboard' ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); }}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                   </svg>
                   Dashboard
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/favorites" className={styles.desktopNavLink}>
+                <button
+                  type="button"
+                  className={`${styles.desktopNavLink} ${activeMenu === '/favorites' ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/favorites'); navigate('/favorites'); }}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                   </svg>
                   Músicas Curtidas
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/categories" className={styles.desktopNavLink}>
+                <button
+                  type="button"
+                  className={`${styles.desktopNavLink} ${activeMenu === '/categories' ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/categories'); navigate('/categories'); }}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                   </svg>
                   Categorias
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
@@ -134,40 +155,43 @@ function MainLayout({ children }) {
         <nav className={styles.mobileNavigation}>
           <ul className={styles.mobileNavList}>
             <li>
-              <a 
-                href="/dashboard" 
-                className={styles.mobileNavLink}
-                onClick={closeSidebar}
+              <button
+                type="button"
+                className={`${styles.mobileNavLink} ${activeMenu === '/dashboard' ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); closeSidebar(); }}
+                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                 </svg>
                 Dashboard
-              </a>
+              </button>
             </li>
             <li>
-              <a 
-                href="/favorites" 
-                className={styles.mobileNavLink}
-                onClick={closeSidebar}
+              <button
+                type="button"
+                className={`${styles.mobileNavLink} ${activeMenu === '/favorites' ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/favorites'); navigate('/favorites'); closeSidebar(); }}
+                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
                 Músicas Curtidas
-              </a>
+              </button>
             </li>
             <li>
-              <a 
-                href="/categories" 
-                className={styles.mobileNavLink}
-                onClick={closeSidebar}
+              <button
+                type="button"
+                className={`${styles.mobileNavLink} ${activeMenu === '/categories' ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/categories'); navigate('/categories'); closeSidebar(); }}
+                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 Categorias
-              </a>
+              </button>
             </li>
           </ul>
           

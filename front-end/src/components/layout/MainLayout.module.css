@@ -1,6 +1,10 @@
-
-
-
+.activeNav {
+  color: #1db954 !important;
+  font-weight: 600;
+  background: rgba(29,185,84,0.08);
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
 
 .layoutContainer {
   --color-bg: #191414;
