@@ -38,6 +38,7 @@ input {
   /* Cores do Spotify */
   --spotify-green: #1db954;
   --spotify-green-hover: #1ed760;
+  --spotify-hover-green: #1ed760;
   --spotify-green-rgb: 29, 185, 84;
   --spotify-black: #121212;
   --spotify-dark-gray: #181818;
@@ -57,6 +58,7 @@ input {
   --border-radius-medium: 8px;
   --border-radius-large: 16px;
   --border-radius-full: 50%;
+  --border-radius-500px: 500px;
   
   /* Espaçamentos */
   --spacing-xs: 4px;

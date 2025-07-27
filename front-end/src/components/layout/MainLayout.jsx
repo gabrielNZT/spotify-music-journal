@@ -9,7 +9,7 @@ function MainLayout({ children }) {
   const { setUser: setGlobalUser } = useContext(UserContext)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const location = useLocation()
-  const [activeMenu, setActiveMenu] = useState('/dashboard')
+  const [activeMenu, setActiveMenu] = useState('/playlists')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -82,14 +82,14 @@ function MainLayout({ children }) {
               <li>
                 <button
                   type="button"
-                  className={`${styles.desktopNavLink} ${activeMenu.includes('/dashboard') ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); }}
+                  className={`${styles.desktopNavLink} ${activeMenu.includes('/playlists') ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/playlists'); navigate('/playlists'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                   </svg>
-                  Dashboard
+                  Playlists
                 </button>
               </li>
               <li>
@@ -161,14 +161,14 @@ function MainLayout({ children }) {
             <li>
               <button
                 type="button"
-                className={`${styles.mobileNavLink} ${activeMenu.includes('/dashboard') ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); closeSidebar(); }}
+                className={`${styles.mobileNavLink} ${activeMenu.includes('/playlists') ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/playlists'); navigate('/playlists'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                 </svg>
-                Dashboard
+                Playlists
               </button>
             </li>
             <li>

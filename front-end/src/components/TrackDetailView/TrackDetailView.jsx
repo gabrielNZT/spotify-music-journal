@@ -235,8 +235,8 @@ function TrackDetailView({
             <p className={styles.errorMessage}>
               O conteúdo solicitado não existe ou não está disponível.
             </p>
-            <button className={styles.retryButton} onClick={() => navigate('/dashboard')}>
-              Voltar ao Dashboard
+            <button className={styles.retryButton} onClick={() => navigate('/playlists')}>
+              Voltar às Playlists
             </button>
           </div>
         </div>

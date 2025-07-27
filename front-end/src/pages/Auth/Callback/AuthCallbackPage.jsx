@@ -11,19 +11,17 @@ function AuthCallbackPage() {
     const handleCallback = async () => {
       const token = searchParams.get('token')
       const error = searchParams.get('error')
-
+      
       if (error) {
-        console.error('Erro na autenticação:', error)
         navigate('/auth/error?error=' + error)
         return
       }
 
       if (token) {
-        
         authService.saveToken(token)
-        navigate('/dashboard')
+        window.location.href = '/playlists'
       } else {
-        navigate('/auth/error?error=no_token')
+        window.location.href = '/auth/error?error=no_token'
       }
     }
 
