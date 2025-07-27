@@ -4,3 +4,4 @@ export { default as LoginPage } from './Login/LoginPage.jsx';
 export { default as DashboardPage } from './Dashboard/DashboardPage.jsx';
 export { default as PlaylistDetail } from './Playlist/PlaylistDetail.jsx';
 export { default as LikedSongsPage } from './LikedSongs/LikedSongsPage.jsx';
+export { default as DiscoverPage } from './Discover/DiscoverPage.jsx';

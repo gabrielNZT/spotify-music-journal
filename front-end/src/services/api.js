@@ -195,6 +195,66 @@ export const playlistService = {
   }
 }
 
+export const discoverApi = {
+  generateRecommendation: async (userInput) => {
+    try {
+      const response = await apiClient.post('/discovery/generate', { userInput })
+      if (response.data?.success && response.data?.data) {
+        return response.data.data
+      }
+      throw response.data
+    } catch (error) {
+      if (error.response?.data) {
+        throw error.response.data
+      }
+      throw { error: 'Erro ao conectar com o servidor' }
+    }
+  },
+  getRecommendationHistory: async (limit = 10) => {
+    try {
+      const response = await apiClient.get(`/discovery/history?limit=${limit}`)
+      if (response.data?.success && response.data?.data) {
+        return response.data.data
+      }
+      throw response.data
+    } catch (error) {
+      if (error.response?.data) {
+        throw error.response.data
+      }
+      throw { error: 'Erro ao conectar com o servidor' }
+    }
+  },
+  getRecommendationById: async (id) => {
+    try {
+      const response = await apiClient.get(`/discovery/${id}`)
+      if (response.data?.success && response.data?.data) {
+        return response.data.data
+      }
+      throw response.data
+    } catch (error) {
+      if (error.response?.data) {
+        throw error.response.data
+      }
+      throw { error: 'Erro ao conectar com o servidor' }
+    }
+  }
+  ,
+  rateRecommendation: async (id, rating) => {
+    try {
+      const response = await apiClient.post(`/discovery/${id}/rate`, { rating })
+      if (response.data?.success) {
+        return response.data
+      }
+      throw response.data
+    } catch (error) {
+      if (error.response?.data) {
+        throw error.response.data
+      }
+      throw { error: 'Erro ao conectar com o servidor' }
+    }
+  }
+}
+
 export const getUserPlaylists = playlistService.getUserPlaylists
 export const getPlaylistDetails = playlistService.getPlaylistDetails
 export const getPlaylistTracks = playlistService.getPlaylistTracks

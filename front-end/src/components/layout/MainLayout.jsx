@@ -18,8 +18,7 @@ function MainLayout({ children }) {
         const response = await authService.getMe()
         setUser(response.user)
         setGlobalUser(response.user)
-      } catch (error) {
-        console.error('Failed to fetch user data', error)
+      } catch {
         setGlobalUser(null)
       }
     }
@@ -108,14 +107,14 @@ function MainLayout({ children }) {
               <li>
                 <button
                   type="button"
-                  className={`${styles.desktopNavLink} ${activeMenu.includes('/categories') ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/categories'); navigate('/categories'); }}
+                  className={`${styles.desktopNavLink} ${activeMenu.includes('/discover') ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/discover'); navigate('/discover'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                   </svg>
-                  Categorias
+                  Descobrir
                 </button>
               </li>
             </ul>
@@ -187,14 +186,14 @@ function MainLayout({ children }) {
             <li>
               <button
                 type="button"
-                className={`${styles.mobileNavLink} ${activeMenu.includes('/categories') ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/categories'); navigate('/categories'); closeSidebar(); }}
+                className={`${styles.mobileNavLink} ${activeMenu.includes('/discover') ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/discover'); navigate('/discover'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                 </svg>
-                Categorias
+                Descobrir
               </button>
             </li>
           </ul>

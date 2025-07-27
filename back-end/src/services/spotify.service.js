@@ -83,7 +83,7 @@ const getPlaylistTracks = async (userId, playlistId, options = {}) => {
 };
 
 const searchTracks = async (userId, query, options = {}) => {
-  const { limit = 20, offset = 0, market = 'US' } = options;
+  const { limit = 20, offset = 0, market = 'BR' } = options;
   return await makeSpotifyRequest(userId, '/search', {
     params: {
       q: query,
@@ -96,7 +96,7 @@ const searchTracks = async (userId, query, options = {}) => {
 };
 
 const searchArtists = async (userId, query, options = {}) => {
-  const { limit = 20, offset = 0, market = 'US' } = options;
+  const { limit = 20, offset = 0, market = 'BR' } = options;
   return await makeSpotifyRequest(userId, '/search', {
     params: {
       q: query,
@@ -109,7 +109,7 @@ const searchArtists = async (userId, query, options = {}) => {
 };
 
 const searchAlbums = async (userId, query, options = {}) => {
-  const { limit = 20, offset = 0, market = 'US' } = options;
+  const { limit = 20, offset = 0, market = 'BR' } = options;
   return await makeSpotifyRequest(userId, '/search', {
     params: {
       q: query,
@@ -136,7 +136,7 @@ const getArtist = async (userId, artistId) => {
   return await makeSpotifyRequest(userId, `/artists/${artistId}`);
 };
 
-const getArtistTopTracks = async (userId, artistId, market = 'US') => {
+const getArtistTopTracks = async (userId, artistId, market = 'BR') => {
   return await makeSpotifyRequest(userId, `/artists/${artistId}/top-tracks`, {
     params: { market }
   });
@@ -147,7 +147,7 @@ const getAlbum = async (userId, albumId) => {
 };
 
 const getAlbumTracks = async (userId, albumId, options = {}) => {
-  const { limit = 50, offset = 0, market = 'US' } = options;
+  const { limit = 50, offset = 0, market = 'BR' } = options;
   return await makeSpotifyRequest(userId, `/albums/${albumId}/tracks`, {
     params: { limit, offset, market }
   });

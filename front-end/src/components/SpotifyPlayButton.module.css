@@ -1,0 +1,30 @@
+.playButton {
+  background: var(--spotify-green);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(30, 215, 96, 0.15);
+  color: #fff;
+  outline: none;
+}
+
+.playButton:hover {
+  background: #1db954;
+}
+
+.playing {
+  background: #1db954;
+  box-shadow: 0 4px 16px rgba(30, 215, 96, 0.25);
+}
+
+.playIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}

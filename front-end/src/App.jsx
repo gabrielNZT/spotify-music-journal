@@ -4,7 +4,7 @@ import { authService } from './services/api'
 import MainLayout from './components/layout/MainLayout'
 import { MusicControlBar } from './components'
 import { MusicPlayerProvider } from './context/MusicPlayerContext'
-import { AuthCallbackPage, AuthErrorPage, DashboardPage, LoginPage, PlaylistDetail, LikedSongsPage } from './pages'
+import { AuthCallbackPage, AuthErrorPage, DashboardPage, LoginPage, PlaylistDetail, LikedSongsPage, DiscoverPage } from './pages'
 import { UserContext } from './context/UserContext'
 
 function ProtectedRoute({ children }) {
@@ -58,6 +58,14 @@ function App() {
             <ProtectedRoute>
               <MusicPlayerProvider>
                 <MainLayout><LikedSongsPage /></MainLayout>
+                <MusicControlBar />
+              </MusicPlayerProvider>
+            </ProtectedRoute>
+          } />
+          <Route path="/discover" element={
+            <ProtectedRoute>
+              <MusicPlayerProvider>
+                <MainLayout><DiscoverPage /></MainLayout>
                 <MusicControlBar />
               </MusicPlayerProvider>
             </ProtectedRoute>

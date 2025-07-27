@@ -11,6 +11,7 @@ const curationRoutes = require('./src/api/curation/curation.routes');
 const playlistRoutes = require('./src/api/playlists/playlists.routes');
 const trackRoutes = require('./src/api/tracks/tracks.routes');
 const playerRoutes = require('./src/api/player');
+const discoveryRoutes = require('./src/api/discovery/discovery.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -26,6 +27,7 @@ app.use('/api/curation', curationRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/tracks', trackRoutes);
 app.use('/api/player', playerRoutes);
+app.use('/api/discovery', discoveryRoutes);
 
 app.get('/', (req, res) => {
   res.json({ 
