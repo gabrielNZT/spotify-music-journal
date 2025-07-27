@@ -1,6 +1,14 @@
+import { useEffect } from 'react';
 import styles from './SpotifyToast.module.css';
 
-export default function SpotifyToast({ message, type = 'info', onClose }) {
+export default function SpotifyToast({ message, type = 'info', onClose, duration = 4000 }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose && onClose();
+    }, duration);
+    return () => clearTimeout(timer);
+  }, [onClose, duration]);
+
   return (
     <div className={`${styles.toast} ${styles[type]}`}> 
       <div className={styles.icon}>
