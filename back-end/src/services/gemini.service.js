@@ -12,36 +12,38 @@ class GeminiService {
 
   async generateMusicRecommendation(userInput, userFavorites = []) {
     try {
-      // Construir contexto baseado nos favoritos do usuário
       const favoritesContext = userFavorites.length > 0
         ? `\n\nAlgumas músicas que o usuário gosta: ${userFavorites.map(fav => `"${fav.trackName}" by ${fav.artistName}`).join(', ')}`
         : '';
 
-      const prompt = `Você é um especialista em música que ajuda pessoas a descobrir novas músicas.
+      const prompt = `Você é um avançado sistema de recomendação musical com profundo conhecimento em teoria musical, 
+      história e tendências. Sua principal tarefa é interpretar a intenção do usuário e fornecer sugestões precisas.
+      ### Pedido do Usuário (Comando Principal)
+      "${userInput}"
 
-Entrada do usuário: "${userInput}"${favoritesContext}
+      ### Contexto de Gostos do Usuário (Use para refinar, SE APLICÁVEL)
+      ${favoritesContext}
 
-Com base na entrada do usuário e, se disponível, no histórico musical dele, recomende 5 músicas que se encaixem perfeitamente com o que ele está buscando.
+      ### Regras de Prioridade
+      1.  **Prioridade Máxima ao Pedido Específico:** Se o "Pedido do Usuário" mencionar um artista, álbum, gênero ou critério muito específico (ex: "músicas do OneRepublic", "rock dos anos 80", "músicas com piano"), suas recomendações DEVEM se ater estritamente a esse pedido. Neste caso, o "Contexto de Gostos do Usuário" deve ser usado apenas para escolher as músicas mais adequadas *dentro* do escopo solicitado, ou ser completamente ignorado se não for relevante. Você NÃO DEVE sugerir outros artistas se um artista específico foi solicitado.
 
-Para cada música, forneça:
-1. Nome da música
-2. Nome do artista
-3. Breve explicação de por que essa música se encaixa com o pedido
+      2.  **Use o Contexto para Pedidos Abertos:** Se o "Pedido do Usuário" for aberto, subjetivo ou baseado em humor (ex: "músicas para relaxar", "algo novo para ouvir", "uma vibe parecida com a que eu gosto"), então use o "Contexto de Gostos do Usuário" como sua principal inspiração para encontrar músicas que combinem com o perfil dele.
 
-Formato de resposta (seja preciso com este formato):
-MÚSICA 1:
-Nome: [nome da música]
-Artista: [nome do artista]
-Por que: [explicação]
+      ### Tarefa
+      Agora, siga rigorosamente as "Regras de Prioridade" e analise as informações acima para recomendar 5 músicas.
 
-MÚSICA 2:
-Nome: [nome da música]
-Artista: [nome do artista]
-Por que: [explicação]
+      Para cada música, forneça (no formato exato abaixo):
+      MÚSICA 1:
+      Nome: [nome da música]
+      Artista: [nome do artista]
+      Por que: [explicação concisa]
 
-[continue para todas as 5 músicas]
+      MÚSICA 2:
+      Nome: [nome da música]
+      Artista: [nome do artista]
+      Por que: [explicação concisa]
 
-Seja criativo mas preciso. Considere o humor, energia, gênero musical e contexto emocional do pedido.`;
+      [continue para todas as 5 músicas]`;
 
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
