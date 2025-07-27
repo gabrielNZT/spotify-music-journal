@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './SpotifyToast.module.css';
 
 export default function SpotifyToast({ message, type = 'info', onClose }) {

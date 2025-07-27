@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import SpotifyToast from '../../components/SpotifyToast'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPlaylistDetails, getPlaylistTracks } from '../../services/api'
 import { playTrack } from '../../services/player'
@@ -7,6 +6,7 @@ import { formatCompletePlaylistData, formatTrackData } from '../../utils/spotify
 import styles from './PlaylistDetail.module.css'
 import PlaylistDetailSkeleton from './PlaylistDetailSkeleton'
 import { useCallback } from 'react'
+import { SpotifyToast } from '../../components'
 
 function PlaylistDetail() {
   const { id } = useParams()
@@ -68,7 +68,6 @@ function PlaylistDetail() {
       })
       setIsPlaying(true)
     } catch (err) {
-      console.log(err.response)
       if (err?.response?.data?.error.includes('No active device found')) {
         setToast({
           message: (
@@ -112,7 +111,6 @@ function PlaylistDetail() {
       setPlaylist(formattedPlaylist);
       setPagination(formattedPlaylist.pagination);
     } catch (err) {
-      console.error('Erro ao carregar playlist:', err);
       if (err.response?.status === 404) {
         setError('Playlist não encontrada');
       } else if (err.response?.status === 403) {
@@ -148,8 +146,7 @@ function PlaylistDetail() {
         }));
         setPagination(tracksData?.pagination || null);
       })
-      .catch(err => {
-        console.error('Erro ao carregar mais faixas:', err);
+      .catch(() => {
         setToast({ message: 'Erro ao carregar mais músicas.', type: 'error' });
       })
       .finally(() => {
@@ -429,7 +426,7 @@ function PlaylistDetail() {
           </div>
         </section>
       </div>
-      =    </>
+    </>
   )
 }
 

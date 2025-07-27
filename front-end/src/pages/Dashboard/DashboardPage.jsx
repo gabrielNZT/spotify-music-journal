@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getUserPlaylists } from '../../services/api'
 import styles from './DashboardPage.module.css'
 import PlaylistList from '../../components/PlaylistList/PlaylistList'
@@ -24,7 +24,7 @@ function DashboardPage() {
       setPlaylists(data.playlists) 
       setPagination(data.pagination)
     } catch (err) {
-      setError('Erro ao carregar suas playlists. Tente novamente.')
+      setError('Erro ao carregar suas playlists. Tente novamente.', err)
     } finally {
       setIsLoading(false)
       window.scrollTo({ top: 0, behavior: 'smooth' })
