@@ -606,7 +606,6 @@ const getCurrentlyPlaying = async (req, res) => {
         });
       }
       
-      // Handle permission errors gracefully
       if (error.status === 401 || error.status === 403) {
         return res.json({
           isPlaying: false,

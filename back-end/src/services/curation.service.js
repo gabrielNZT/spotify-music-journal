@@ -30,7 +30,8 @@ const getFavoritesByPlaylist = async (userId, playlistId, options = {}) => {
     duration: favorite.duration,
     durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
-    user: favorite.user
+    user: favorite.user,
+    isFavorite: true
   }));
 
   const totalDurationMs = await Favorite.aggregate([
@@ -126,7 +127,8 @@ const getUserFavorites = async (userId, options = {}) => {
     duration: favorite.duration,
     durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
-    user: favorite.user
+    user: favorite.user,
+    isFavorite: true
   }));
 
   const totalDurationMs = await Favorite.aggregate([
@@ -352,7 +354,8 @@ const getCategoryFavorites = async (userId, categoryId, options = {}) => {
     artistName: favorite.artistName,
     albumImageUrl: favorite.albumImageUrl,
     createdAt: favorite.createdAt,
-    user: favorite.user
+    user: favorite.user,
+    isFavorite: true
   }));
 
   return {

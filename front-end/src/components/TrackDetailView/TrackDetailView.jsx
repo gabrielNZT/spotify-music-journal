@@ -111,11 +111,19 @@ function TrackDetailView({
     const isCurrentlyFavorite = favoriteStates[track.id] ?? false
     
     try {
-      if (isCurrentlyFavorite) {
+      if (isCurrentlyFavorite || isLikedSongs) {
         await removeFavorite(track.id)
         setFavoriteStates(prev => ({ ...prev, [track.id]: false }))
         setToast({ message: 'Removido dos favoritos', type: 'success' })
-        
+
+        // Remove da listagem se for isLikedSongs
+        if (isLikedSongs) {
+          if (playlist && playlist.tracks) {
+            const updatedTracks = playlist.tracks.filter(t => t.id !== track.id)
+            playlist.tracks = updatedTracks
+          }
+        }
+
         if (onToggleFavorite) {
           onToggleFavorite(track.id, false)
         }
@@ -382,7 +390,7 @@ function TrackDetailView({
                     <div className={styles.trackActions}>
                       {!track.isLocal && (
                         <button
-                          className={`${styles.likeButton} ${favoriteStates[track.id] ? styles.liked : ''}`}
+                          className={`${styles.likeButton} ${favoriteStates[track.id] || isLikedSongs ? styles.liked : ''}`}
                           aria-label="Adicionar aos favoritos"
                           onClick={(e) => handleToggleFavorite(track, e)}
                         >
