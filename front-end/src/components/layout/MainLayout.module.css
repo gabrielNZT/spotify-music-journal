@@ -41,6 +41,8 @@
   font-family: var(--font-family-base);
   display: flex;
   flex-direction: column;
+  /* Add bottom margin for music control bar */
+  margin-bottom: 90px;
 }
 
 
@@ -427,6 +429,7 @@
   overflow-y: auto;
   margin-left: 0;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: 90px;
 }
 
 

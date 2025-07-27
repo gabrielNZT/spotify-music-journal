@@ -1,0 +1,205 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal {
+  background: #282828;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.header {
+  background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+  padding: 24px;
+  position: relative;
+  text-align: center;
+}
+
+.iconContainer {
+  margin-bottom: 16px;
+}
+
+.spotifyIcon {
+  width: 48px;
+  height: 48px;
+  fill: white;
+}
+
+.title {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.closeIcon {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+.content {
+  padding: 32px 24px 24px;
+  color: white;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 24px;
+  color: #b3b3b3;
+}
+
+.features {
+  margin-bottom: 32px;
+}
+
+.features h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  color: white;
+}
+
+.features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  color: #b3b3b3;
+  line-height: 1.4;
+}
+
+.features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #1db954;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.upgradeButton {
+  background: #1db954;
+  color: white;
+  text-decoration: none;
+  padding: 16px 24px;
+  border-radius: 500px;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.upgradeButton:hover {
+  background: #1ed760;
+  transform: scale(1.04);
+}
+
+.cancelButton {
+  background: transparent;
+  color: #b3b3b3;
+  border: 1px solid #535353;
+  padding: 16px 24px;
+  border-radius: 500px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cancelButton:hover {
+  color: white;
+  border-color: white;
+  transform: scale(1.04);
+}
+
+@media (max-width: 540px) {
+  .modal {
+    margin: 16px;
+    max-width: none;
+  }
+  
+  .header {
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .content {
+    padding: 24px 20px 20px;
+  }
+  
+  .actions {
+    gap: 8px;
+  }
+  
+  .upgradeButton,
+  .cancelButton {
+    padding: 14px 20px;
+    font-size: 13px;
+  }
+}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPlaylistDetails, getPlaylistTracks, addFavorite, removeFavorite, getPlaylistFavorites } from '../../services/api'
 import { playTrack } from '../../services/player'
+import { useMusicPlayer } from '../../hooks/useMusicPlayer'
 import { formatCompletePlaylistData, formatTrackData } from '../../utils/spotifyDataFormatter'
 import styles from './PlaylistDetail.module.css'
 import PlaylistDetailSkeleton from './PlaylistDetailSkeleton'
@@ -11,12 +12,11 @@ import { SpotifyToast } from '../../components'
 function PlaylistDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { currentTrack, isPlaying, setIsPlaying } = useMusicPlayer()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [toast, setToast] = useState(null)
   const [playlist, setPlaylist] = useState(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTrack, setCurrentTrack] = useState(null)
   const [loadingMoreTracks, setLoadingMoreTracks] = useState(false)
   const [pagination, setPagination] = useState(null)
   const loadMoreRef = useRef(null)
@@ -87,7 +87,6 @@ function PlaylistDetail() {
   }
 
   const handleTrackPlay = async (trackId) => {
-    setCurrentTrack(trackId)
     try {
       const track = playlist.tracks.find(t => t.id === trackId)
       if (!track) return
@@ -395,12 +394,12 @@ function PlaylistDetail() {
                 {playlist.tracks.map((track, index) => (
                   <div
                     key={track.id}
-                    className={`${styles.trackRow} ${currentTrack === track.id ? styles.currentTrack : ''}`}
+                    className={`${styles.trackRow} ${currentTrack?.id === track.id ? styles.currentTrack : ''}`}
                     onClick={() => !track.isLocal && handleTrackPlay(track.id)}
                     style={{ cursor: track.isLocal ? 'default' : 'pointer' }}
                   >
                     <div className={styles.trackNumberCell}>
-                      {currentTrack === track.id && isPlaying ? (
+                      {currentTrack?.id === track.id && isPlaying ? (
                         <div className={styles.playingIndicator}>
                           <span></span>
                           <span></span>

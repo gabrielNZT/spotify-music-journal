@@ -605,6 +605,17 @@ const getCurrentlyPlaying = async (req, res) => {
           currentTrack: null
         });
       }
+      
+      // Handle permission errors gracefully
+      if (error.status === 401 || error.status === 403) {
+        return res.json({
+          isPlaying: false,
+          currentTrack: null,
+          error: 'premium_required',
+          message: 'Spotify Premium é necessário para usar os controles do player'
+        });
+      }
+      
       return res.status(error.status || 500).json({
         error: 'Spotify API error',
         message: error.message
