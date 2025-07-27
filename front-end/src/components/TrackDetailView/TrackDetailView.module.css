@@ -1,0 +1,175 @@
+@import url('../../pages/Playlist/PlaylistDetail.module.css');
+
+.detailContainer.likedSongs {
+  background: linear-gradient(180deg, #5038a0 0%, #121212 300px);
+  min-height: 100vh;
+}
+
+.heroSection.likedSongsHero {
+  background: linear-gradient(180deg, transparent 0%, rgba(80, 56, 160, 0.1) 100%);
+}
+
+.heroSection.likedSongsHero::before {
+  background: radial-gradient(circle, rgba(80, 56, 160, 0.3) 0%, transparent 70%);
+}
+
+.albumArtContainer.likedSongsArt {
+  background: linear-gradient(135deg, #450af5, #c93bff, #4ade80);
+  position: relative;
+  overflow: hidden;
+}
+
+.albumArtContainer.likedSongsArt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #5038a0 0%, #7c3aed 100%);
+  z-index: 1;
+}
+
+.likedSongsIcon {
+  position: relative;
+  z-index: 2;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.likedSongsIcon .heartIcon {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.detailContainer.likedSongs .playlistTitle {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+.detailContainer.likedSongs .playlistType {
+  color: #e0e7ff;
+}
+
+.detailContainer.likedSongs .playlistDescription {
+  color: #c7d2fe;
+}
+
+.detailContainer.likedSongs .playlistMeta {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .playlistMeta .ownerName {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.detailContainer.likedSongs .tracksHeader {
+  border-bottom: 1px solid rgba(160, 118, 255, 0.1);
+}
+
+.detailContainer.likedSongs .tracksHeader span {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .trackRow:hover {
+  background: rgba(80, 56, 160, 0.1);
+}
+
+.detailContainer.likedSongs .trackRow.currentTrack {
+  background: rgba(80, 56, 160, 0.2);
+}
+
+.detailContainer.likedSongs .trackName {
+  color: #ffffff;
+}
+
+.detailContainer.likedSongs .trackArtist {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .albumName {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .trackTime {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .playButton {
+  background: linear-gradient(135deg, #5038a0 0%, #7c3aed 100%);
+  box-shadow: 0 8px 24px rgba(80, 56, 160, 0.4);
+}
+
+.detailContainer.likedSongs .playButton:hover {
+  background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(80, 56, 160, 0.6);
+}
+
+.detailContainer.likedSongs .likeButton.liked {
+  color: #5038a0;
+}
+
+.detailContainer.likedSongs .likeButton:hover {
+  color: #7c3aed;
+}
+
+.detailContainer.likedSongs .emptyTracksMessage {
+  text-align: center;
+  padding: var(--spacing-xxl);
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .emptyTracksMessage p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.detailContainer.likedSongs .loadingMore {
+  color: #a5b4fc;
+}
+
+.detailContainer.likedSongs .playingIndicator span {
+  background: linear-gradient(135deg, #5038a0 0%, #7c3aed 100%);
+}
+
+@media (max-width: 768px) {
+  .detailContainer.likedSongs {
+    background: linear-gradient(180deg, #5038a0 0%, #121212 200px);
+  }
+  
+  .likedSongsIcon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .likedSongsIcon .heartIcon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .detailContainer.likedSongs {
+    background: linear-gradient(180deg, #5038a0 0%, #121212 150px);
+  }
+  
+  .likedSongsIcon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .likedSongsIcon .heartIcon {
+    width: 48px;
+    height: 48px;
+  }
+}

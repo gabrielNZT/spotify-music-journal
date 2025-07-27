@@ -1,3 +1,38 @@
+:root {
+  --skeleton-blue-base: #2a2e4a;
+  --skeleton-blue-highlight: #3b4070;
+}
+
+.likedSongs {
+  background: linear-gradient(180deg, #5038a0 0%, #121212 300px);
+}
+
+.likedSongs .heroSection {
+  background: linear-gradient(180deg, rgba(80, 56, 160, 0.15) 0%, transparent 100%);
+}
+
+.likedSongs .skeletonAlbumArt,
+.likedSongs .skeletonPlaylistType,
+.likedSongs .skeletonPlaylistTitle,
+.likedSongs .skeletonPlaylistDescription,
+.likedSongs .skeletonOwnerAvatar,
+.likedSongs .skeletonOwnerName,
+.likedSongs .skeletonMetaDivider,
+.likedSongs .skeletonTrackCount,
+.likedSongs .skeletonDuration,
+.likedSongs .skeletonPlayButton,
+.likedSongs .skeletonSecondaryButton,
+.likedSongs .skeletonClockIcon,
+.likedSongs .skeletonTrackIndex,
+.likedSongs .skeletonTrackName,
+.likedSongs .skeletonTrackArtist,
+.likedSongs .skeletonAlbumName,
+.likedSongs .skeletonLikeButton,
+.likedSongs .skeletonTrackTime {
+  background: linear-gradient(90deg, var(--skeleton-blue-base) 25%, var(--skeleton-blue-highlight) 50%, var(--skeleton-blue-base) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
 
 :root {
   --skeleton-base: #232323;

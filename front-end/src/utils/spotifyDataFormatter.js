@@ -191,3 +191,59 @@ export const getBestImage = (images, preferredSize = 'medium') => {
     }
   }
 }
+
+/**
+ * Formata dados de uma música favorita
+ * @param {Object} favoriteData - Dados da música favorita
+ * @returns {Object} Dados formatados da música favorita
+ */
+export const formatFavoriteData = (favoriteData) => {
+  if (!favoriteData) return null
+  
+  return {
+    id: favoriteData.spotifyTrackId,
+    name: favoriteData.trackName || 'Música sem nome',
+    artist: favoriteData.artistName || 'Artista desconhecido',
+    album: favoriteData.albumName || 'Álbum desconhecido',
+    image: favoriteData.albumImageUrl || null,
+    duration: favoriteData.duration || '0:00',
+    durationMs: favoriteData.durationMs || 0,
+    addedAt: favoriteData.createdAt,
+    explicit: false,
+    isLocal: false,
+    isAvailable: true,
+    popularity: 0,
+    uri: `spotify:track:${favoriteData.spotifyTrackId}`,
+    favoriteId: favoriteData._id
+  }
+}
+
+/**
+ * Formata dados completos de favoritos com paginação
+ * @param {Object} favoritesResponse - Resposta da API com favoritos
+ * @returns {Object} Dados completos formatados
+ */
+export const formatCompleteFavoritesData = (favoritesResponse) => {
+  const formattedTracks = (favoritesResponse?.favorites || [])
+    .map(formatFavoriteData)
+    .filter(Boolean)
+  
+  const totalDurationMs = calculateTotalDuration(formattedTracks)
+  
+  return {
+    id: 'liked-songs',
+    name: 'Músicas Curtidas',
+    description: 'Suas músicas favoritas do Spotify',
+    image: null,
+    tracks: formattedTracks,
+    totalTracks: favoritesResponse?.pagination?.total || formattedTracks.length,
+    totalDuration: formatPlaylistDuration(totalDurationMs),
+    totalDurationMs,
+    pagination: favoritesResponse?.pagination || null,
+    isLikedSongs: true,
+    owner: {
+      displayName: 'Você',
+      id: 'current-user'
+    }
+  }
+}

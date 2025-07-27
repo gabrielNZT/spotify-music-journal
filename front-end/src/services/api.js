@@ -83,12 +83,44 @@ export const musicService = {
     }
   },
 
-  getFavorites: async () => {
+  getFavorites: async ({ page = 1, limit = 20 } = {}) => {
     try {
-      const response = await apiClient.get('/curation/favorites')
+      const response = await apiClient.get('/curation/favorites', {
+        params: { page, limit }
+      })
       return response.data
     } catch (error) {
       console.error('Erro ao obter favoritas:', error)
+      throw error
+    }
+  },
+
+  addFavorite: async (trackData) => {
+    try {
+      const response = await apiClient.post('/curation/favorites', trackData)
+      return response.data
+    } catch (error) {
+      console.error('Erro ao adicionar favorita:', error)
+      throw error
+    }
+  },
+
+  removeFavorite: async (spotifyTrackId) => {
+    try {
+      const response = await apiClient.delete(`/curation/favorites/${spotifyTrackId}`)
+      return response.data
+    } catch (error) {
+      console.error('Erro ao remover favorita:', error)
+      throw error
+    }
+  },
+
+  checkFavorite: async (spotifyTrackId) => {
+    try {
+      const response = await apiClient.get(`/curation/favorites/check/${spotifyTrackId}`)
+      return response.data
+    } catch (error) {
+      console.error('Erro ao verificar favorita:', error)
       throw error
     }
   }
@@ -155,5 +187,9 @@ export const playlistService = {
 export const getUserPlaylists = playlistService.getUserPlaylists
 export const getPlaylistDetails = playlistService.getPlaylistDetails
 export const getPlaylistTracks = playlistService.getPlaylistTracks
+export const getFavorites = musicService.getFavorites
+export const addFavorite = musicService.addFavorite
+export const removeFavorite = musicService.removeFavorite
+export const checkFavorite = musicService.checkFavorite
 
 export default apiClient

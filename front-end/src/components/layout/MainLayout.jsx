@@ -78,7 +78,7 @@ function MainLayout({ children }) {
               <li>
                 <button
                   type="button"
-                  className={`${styles.desktopNavLink} ${activeMenu === '/dashboard' ? styles.activeNav : ''}`}
+                  className={`${styles.desktopNavLink} ${activeMenu.includes('/dashboard') ? styles.activeNav : ''}`}
                   onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
@@ -91,8 +91,8 @@ function MainLayout({ children }) {
               <li>
                 <button
                   type="button"
-                  className={`${styles.desktopNavLink} ${activeMenu === '/favorites' ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/favorites'); navigate('/favorites'); }}
+                  className={`${styles.desktopNavLink} ${activeMenu.includes('/liked-songs') ? styles.activeNav : ''}`}
+                  onClick={() => { setActiveMenu('/liked-songs'); navigate('/liked-songs'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -104,7 +104,7 @@ function MainLayout({ children }) {
               <li>
                 <button
                   type="button"
-                  className={`${styles.desktopNavLink} ${activeMenu === '/categories' ? styles.activeNav : ''}`}
+                  className={`${styles.desktopNavLink} ${activeMenu.includes('/categories') ? styles.activeNav : ''}`}
                   onClick={() => { setActiveMenu('/categories'); navigate('/categories'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
@@ -157,7 +157,7 @@ function MainLayout({ children }) {
             <li>
               <button
                 type="button"
-                className={`${styles.mobileNavLink} ${activeMenu === '/dashboard' ? styles.activeNav : ''}`}
+                className={`${styles.mobileNavLink} ${activeMenu.includes('/dashboard') ? styles.activeNav : ''}`}
                 onClick={() => { setActiveMenu('/dashboard'); navigate('/dashboard'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
@@ -170,8 +170,8 @@ function MainLayout({ children }) {
             <li>
               <button
                 type="button"
-                className={`${styles.mobileNavLink} ${activeMenu === '/favorites' ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/favorites'); navigate('/favorites'); closeSidebar(); }}
+                className={`${styles.mobileNavLink} ${activeMenu.includes('/liked-songs') ? styles.activeNav : ''}`}
+                onClick={() => { setActiveMenu('/liked-songs'); navigate('/liked-songs'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -183,7 +183,7 @@ function MainLayout({ children }) {
             <li>
               <button
                 type="button"
-                className={`${styles.mobileNavLink} ${activeMenu === '/categories' ? styles.activeNav : ''}`}
+                className={`${styles.mobileNavLink} ${activeMenu.includes('/categories') ? styles.activeNav : ''}`}
                 onClick={() => { setActiveMenu('/categories'); navigate('/categories'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >

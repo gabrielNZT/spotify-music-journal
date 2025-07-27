@@ -1,8 +1,8 @@
 import styles from './PlaylistDetailSkeleton.module.css'
 
-function PlaylistDetailSkeleton() {
+function PlaylistDetailSkeleton({ isLikedSongs }) {
   return (
-    <div className={styles.detailContainer}>
+    <div className={`${styles.detailContainer} ${isLikedSongs ? styles.likedSongs : ''}`}>
       {/* Hero Section Skeleton */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>

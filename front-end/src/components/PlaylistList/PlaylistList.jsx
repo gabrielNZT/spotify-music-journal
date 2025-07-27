@@ -25,7 +25,7 @@ function PlaylistList({ playlists }) {
         <div
           key={playlist.id}
           className={styles.playlistCard}
-          onClick={() => navigate(`/playlist/${playlist.id}`)}
+          onClick={() => navigate(`/dashboard/${playlist.id}`)}
           style={{ cursor: 'pointer' }}
         >
           <div className={styles.coverWrapper}>
