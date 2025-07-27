@@ -21,11 +21,58 @@ function PlaylistDetail() {
   const [pagination, setPagination] = useState(null)
   const loadMoreRef = useRef(null)
   const isFetchingRef = useRef(false)
+   const [favoriteStates, setFavoriteStates] = useState({})
 
   const defaultImage = '/placeholder-playlist.svg'
 
   const handleImageError = (e) => {
     e.target.src = defaultImage
+  }
+
+    useEffect(() => {
+    if (!playlist || !playlist.tracks) return
+    const fetchFavorites = async () => {
+      const states = {}
+      await Promise.all(
+        playlist.tracks.map(async (track) => {
+          try {
+            const res = await import('../../services/api').then(mod => mod.checkFavorite(track.id))
+            states[track.id] = res.isFavorite
+          } catch {
+            states[track.id] = false
+          }
+        })
+      )
+      setFavoriteStates(states)
+    }
+    fetchFavorites()
+  }, [playlist])
+
+  const handleToggleFavorite = async (track, e) => {
+    e.stopPropagation()
+    const isCurrentlyFavorite = favoriteStates[track.id] ?? false
+    try {
+      if (isCurrentlyFavorite) {
+        await import('../../services/api').then(mod => mod.removeFavorite(track.id))
+        setFavoriteStates(prev => ({ ...prev, [track.id]: false }))
+        setToast({ message: 'Removido dos favoritos', type: 'success' })
+      } else {
+        await import('../../services/api').then(mod => mod.addFavorite({
+          spotifyTrackId: track.id,
+          trackName: track.name,
+          artistName: track.artist,
+          albumImageUrl: track.image
+        }))
+        setFavoriteStates(prev => ({ ...prev, [track.id]: true }))
+        setToast({ message: 'Adicionado aos favoritos', type: 'success' })
+      }
+    } catch (err) {
+      if (err?.response?.status === 409) {
+        setToast({ message: 'Esta música já está nos favoritos', type: 'warning' })
+      } else {
+        setToast({ message: 'Erro ao atualizar favoritos', type: 'error' })
+      }
+    }
   }
 
   const handlePlayPause = async () => {
@@ -303,7 +350,6 @@ function PlaylistDetail() {
           </div>
         </section>
 
-        {/* Controls Section */}
         <section className={styles.controlsSection}>
           <button
             className={`${styles.playButton} ${isPlaying ? styles.playing : ''}`}
@@ -392,13 +438,13 @@ function PlaylistDetail() {
                     <div className={styles.trackActions}>
                       {!track.isLocal && (
                         <button
-                          className={`${styles.likeButton} ${Math.random() > 0.5 ? styles.liked : ''}`}
-                          aria-label="Adicionar aos favoritos"
-                          onClick={(e) => e.stopPropagation()}
+                          className={`${styles.likeButton} ${favoriteStates[track.id] ? styles.liked : ''}`}
+                          aria-label={favoriteStates[track.id] ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                          onClick={(e) => handleToggleFavorite(track, e)}
                         >
                           <svg viewBox="0 0 16 16" className={styles.heartIcon}>
                             <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                              fill={Math.random() > 0.5 ? '#1db954' : 'currentColor'} />
+                              fill={favoriteStates[track.id] ? '#1db954' : 'currentColor'} />
                           </svg>
                         </button>
                       )}
