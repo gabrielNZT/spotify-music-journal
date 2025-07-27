@@ -227,18 +227,16 @@ export const formatCompleteFavoritesData = (favoritesResponse) => {
   const formattedTracks = (favoritesResponse?.favorites || [])
     .map(formatFavoriteData)
     .filter(Boolean)
-  
-  const totalDurationMs = calculateTotalDuration(formattedTracks)
-  
+
   return {
     id: 'liked-songs',
     name: 'Músicas Curtidas',
     description: 'Suas músicas favoritas do Spotify',
     image: null,
     tracks: formattedTracks,
-    totalTracks: favoritesResponse?.pagination?.total || formattedTracks.length,
-    totalDuration: formatPlaylistDuration(totalDurationMs),
-    totalDurationMs,
+    totalTracks: favoritesResponse?.totalTracks ?? favoritesResponse?.pagination?.total ?? formattedTracks.length,
+    totalDuration: favoritesResponse?.totalDuration ?? formatPlaylistDuration(favoritesResponse?.totalDurationMs ?? 0),
+    totalDurationMs: favoritesResponse?.totalDurationMs ?? 0,
     pagination: favoritesResponse?.pagination || null,
     isLikedSongs: true,
     owner: {

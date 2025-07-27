@@ -7,6 +7,9 @@ const addFavorite = async (req, res) => {
     await body('trackName').optional().isString().run(req);
     await body('artistName').optional().isString().run(req);
     await body('albumImageUrl').optional().isURL().run(req);
+    await body('albumName').optional().isString().run(req);
+    await body('duration').optional().isString().run(req);
+    await body('durationMs').optional().isInt().run(req);
     await body('playlistId').isString().notEmpty().run(req);
 
     const errors = validationResult(req);
@@ -17,7 +20,7 @@ const addFavorite = async (req, res) => {
       });
     }
 
-    const { spotifyTrackId, trackName, artistName, albumImageUrl, playlistId } = req.body;
+    const { spotifyTrackId, trackName, artistName, albumImageUrl, albumName, duration, durationMs, playlistId } = req.body;
     const userId = req.userId;
 
     const favorite = await curationService.addFavorite(userId, {
@@ -25,6 +28,9 @@ const addFavorite = async (req, res) => {
       trackName,
       artistName,
       albumImageUrl,
+      albumName,
+      duration,
+      durationMs,
       playlistId
     });
 

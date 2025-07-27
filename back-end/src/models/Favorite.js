@@ -22,6 +22,15 @@ const favoriteSchema = new mongoose.Schema({
   },
   albumImageUrl: { 
     type: String 
+  },
+  albumName: {
+    type: String
+  },
+  duration: {
+    type: String
+  },
+  durationMs: {
+    type: Number
   }
 }, { 
   timestamps: true 

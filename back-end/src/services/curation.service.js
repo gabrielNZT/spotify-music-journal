@@ -1,4 +1,7 @@
+const { default: mongoose } = require('mongoose');
 const { Favorite, Category, Comment } = require('../models');
+
+const { formatPlaylistDuration } = require('../utils/spotifyDataFormatter');
 
 const getFavoritesByPlaylist = async (userId, playlistId, options = {}) => {
   let { page = 1, limit = 20 } = options;
@@ -23,12 +26,22 @@ const getFavoritesByPlaylist = async (userId, playlistId, options = {}) => {
     trackName: favorite.trackName,
     artistName: favorite.artistName,
     albumImageUrl: favorite.albumImageUrl,
+    albumName: favorite.albumName,
+    duration: favorite.duration,
+    durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
     user: favorite.user
   }));
 
+  const totalDurationMs = await Favorite.aggregate([
+    { $match: { user: new mongoose.Types.ObjectId(String(userId)), playlistId } },
+    { $group: { _id: null, sum: { $sum: "$durationMs" } } }
+  ]).then(res => res[0]?.sum || 0);
   return {
     favorites: formattedFavorites,
+    totalTracks: total,
+    totalDurationMs,
+    totalDuration: formatPlaylistDuration(totalDurationMs),
     pagination: {
       page,
       limit,
@@ -41,7 +54,7 @@ const getFavoritesByPlaylist = async (userId, playlistId, options = {}) => {
 };
 
 const addFavorite = async (userId, trackData) => {
-  const { spotifyTrackId, trackName, artistName, albumImageUrl, playlistId } = trackData;
+  const { spotifyTrackId, trackName, artistName, albumImageUrl, albumName, duration, durationMs, playlistId } = trackData;
 
   const existingFavorite = await Favorite.findOne({
     user: userId,
@@ -58,6 +71,9 @@ const addFavorite = async (userId, trackData) => {
     trackName,
     artistName,
     albumImageUrl,
+    albumName,
+    duration,
+    durationMs,
     playlistId
   });
 
@@ -70,6 +86,9 @@ const addFavorite = async (userId, trackData) => {
     trackName: favorite.trackName,
     artistName: favorite.artistName,
     albumImageUrl: favorite.albumImageUrl,
+    albumName: favorite.albumName,
+    duration: favorite.duration,
+    durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
     user: favorite.user
   };
@@ -103,12 +122,22 @@ const getUserFavorites = async (userId, options = {}) => {
     trackName: favorite.trackName,
     artistName: favorite.artistName,
     albumImageUrl: favorite.albumImageUrl,
+    albumName: favorite.albumName,
+    duration: favorite.duration,
+    durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
     user: favorite.user
   }));
 
+  const totalDurationMs = await Favorite.aggregate([
+    { $match: { user: new mongoose.Types.ObjectId(String(userId)) } },
+    { $group: { _id: null, sum: { $sum: "$durationMs" } } }
+  ]).then(res => res[0]?.sum || 0);
   return {
     favorites: formattedFavorites,
+    totalTracks: total,
+    totalDurationMs,
+    totalDuration: formatPlaylistDuration(totalDurationMs),
     pagination: {
       page: page,
       limit: limit,
@@ -145,6 +174,9 @@ const getFavoriteById = async (favoriteId, userId) => {
     trackName: favorite.trackName,
     artistName: favorite.artistName,
     albumImageUrl: favorite.albumImageUrl,
+    albumName: favorite.albumName,
+    duration: favorite.duration,
+    durationMs: favorite.durationMs,
     createdAt: favorite.createdAt,
     user: favorite.user
   };

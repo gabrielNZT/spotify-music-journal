@@ -43,6 +43,9 @@ function PlaylistDetail() {
           trackName: track.name,
           artistName: track.artist,
           albumImageUrl: track.image,
+          albumName: track.album,
+          duration: track.duration,
+          durationMs: track.durationMs,
           playlistId: id
         })
         setFavoriteStates(prev => ({ ...prev, [track.id]: true }))
