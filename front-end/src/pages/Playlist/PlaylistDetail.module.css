@@ -19,37 +19,6 @@
   background: #181818;
 }
 
-:root {
-  --spotify-green: #1db954;
-  --spotify-green-hover: #1ed760;
-  --spotify-black: #121212;
-  --spotify-dark-gray: #181818;
-  --spotify-medium-gray: #282828;
-  --spotify-light-gray: #b3b3b3;
-  --spotify-white: #ffffff;
-  --spotify-red: #e22134;
-  
-  --border-radius-small: 4px;
-  --border-radius-medium: 8px;
-  --border-radius-large: 16px;
-  --border-radius-full: 50%;
-  
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 48px;
-  
-  --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.25);
-  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.4);
-  
-  --transition-fast: 0.15s ease;
-  --transition-medium: 0.3s ease;
-  --transition-slow: 0.5s ease;
-}
-
 .detailContainer {
   max-width: 1200px;
   margin: 0 auto;
@@ -334,7 +303,7 @@
 }
 
 .trackRow.currentTrack {
-  background: rgba(var(--spotify-green), 0.1);
+  background: rgba(var(--spotify-green-rgb), 0.1);
   color: var(--spotify-green);
 }
 

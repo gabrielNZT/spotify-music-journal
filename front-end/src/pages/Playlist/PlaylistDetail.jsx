@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPlaylistDetails, getPlaylistTracks, addFavorite, removeFavorite, getPlaylistFavorites } from '../../services/api'
-import { playTrack } from '../../services/player'
+import { playTrack, pausePlayback } from '../../services/player'
 import { useMusicPlayer } from '../../hooks/useMusicPlayer'
 import { formatCompletePlaylistData, formatTrackData } from '../../utils/spotifyDataFormatter'
 import styles from './PlaylistDetail.module.css'
@@ -14,7 +14,7 @@ function PlaylistDetail() {
   const { id } = useParams()
   const { user } = useUser()
   const navigate = useNavigate()
-  const { currentTrack, isPlaying, setIsPlaying } = useMusicPlayer()
+  const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack } = useMusicPlayer()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [toast, setToast] = useState(null)
@@ -30,6 +30,11 @@ function PlaylistDetail() {
   }
 
   const defaultImage = '/placeholder-playlist.svg'
+
+  const isCurrentTrackFromThisPlaylist = () => {
+    if (!currentTrack || !playlist?.tracks) return false
+    return playlist.tracks.some(track => track.id === currentTrack.id)
+  }
 
   const handleImageError = (e) => {
     e.target.src = defaultImage
@@ -69,13 +74,17 @@ function PlaylistDetail() {
   const handlePlayPause = async () => {
     if (!playlist) return
     try {
-      await playTrack({
-        contextUri: `spotify:playlist:${playlist.id}`
-      })
-      setIsPlaying(true)
+      if (isPlaying && currentTrack && isCurrentTrackFromThisPlaylist()) {
+        await pausePlayback()
+        setIsPlaying(false)
+      } else {
+        await playTrack({
+          contextUri: `spotify:playlist:${playlist.id}`
+        })
+        setIsPlaying(true)
+      }
     } catch (err) {
-
-      if (err?.response?.data?.error.includes('No active device found')) {
+      if (err?.response?.data?.error?.includes('No active device found')) {
         setToast({
           message: (
             <>
@@ -99,13 +108,16 @@ function PlaylistDetail() {
     try {
       const track = playlist.tracks.find(t => t.id === trackId)
       if (!track) return
+      
       await playTrack({
         contextUri: `spotify:playlist:${playlist.id}`,
         offset: { position: playlist.tracks.findIndex(t => t.id === trackId) }
       })
+      
+      setCurrentTrack(track)
       setIsPlaying(true)
     } catch (err) {
-      if (err?.response?.data?.error.includes('No active device found')) {
+      if (err?.response?.data?.error?.includes('No active device found')) {
         setToast({
           message: (
             <>
@@ -352,11 +364,11 @@ function PlaylistDetail() {
 
         <section className={styles.controlsSection}>
           <button
-            className={`${styles.playButton} ${isPlaying ? styles.playing : ''}`}
+            className={`${styles.playButton} ${isPlaying && isCurrentTrackFromThisPlaylist() ? styles.playing : ''}`}
             onClick={handlePlayPause}
-            aria-label={isPlaying ? 'Pausar playlist' : 'Reproduzir playlist'}
+            aria-label={isPlaying && isCurrentTrackFromThisPlaylist() ? 'Pausar playlist' : 'Reproduzir playlist'}
           >
-            {isPlaying ? (
+            {isPlaying && isCurrentTrackFromThisPlaylist() ? (
               <svg viewBox="0 0 24 24" className={styles.playIcon}>
                 <rect x="6" y="4" width="4" height="16" fill="currentColor" />
                 <rect x="14" y="4" width="4" height="16" fill="currentColor" />
@@ -408,7 +420,7 @@ function PlaylistDetail() {
                     style={{ cursor: track.isLocal ? 'default' : 'pointer' }}
                   >
                     <div className={styles.trackNumberCell}>
-                      {currentTrack?.id === track.id && isPlaying ? (
+                      {currentTrack?.id === track.id && isPlaying && isCurrentTrackFromThisPlaylist() ? (
                         <div className={styles.playingIndicator}>
                           <span></span>
                           <span></span>

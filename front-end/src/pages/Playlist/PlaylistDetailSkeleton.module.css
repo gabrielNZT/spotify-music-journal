@@ -1,8 +1,3 @@
-:root {
-  --skeleton-blue-base: #2a2e4a;
-  --skeleton-blue-highlight: #3b4070;
-}
-
 .likedSongs {
   background: linear-gradient(180deg, #5038a0 0%, #121212 300px);
 }
@@ -32,25 +27,6 @@
   background: linear-gradient(90deg, var(--skeleton-blue-base) 25%, var(--skeleton-blue-highlight) 50%, var(--skeleton-blue-base) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-}
-
-:root {
-  --skeleton-base: #232323;
-  --skeleton-highlight: #2a2a2a;
-  --skeleton-green-base: #1a7040;
-  --skeleton-green-highlight: #1e8047;
-  
-  --border-radius-small: 4px;
-  --border-radius-medium: 8px;
-  --border-radius-large: 16px;
-  --border-radius-full: 50%;
-  
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 48px;
 }
 
 .detailContainer {

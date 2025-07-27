@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useUser } from '../../context/UserContext'
 import { useNavigate } from 'react-router-dom'
-import { playTrack } from '../../services/player'
+import { playTrack, pausePlayback } from '../../services/player'
 import { addFavorite, removeFavorite } from '../../services/api'
+import { useMusicPlayer } from '../../hooks/useMusicPlayer'
 import styles from './TrackDetailView.module.css'
 import { SpotifyToast } from '../'
 
@@ -19,14 +20,18 @@ function TrackDetailView({
 }) {
   const navigate = useNavigate()
   const { user } = useUser()
+  const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack } = useMusicPlayer()
   const [toast, setToast] = useState(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTrack, setCurrentTrack] = useState(null)
   const [favoriteStates, setFavoriteStates] = useState({})
   const loadMoreRef = useRef(null)
   const isFetchingRef = useRef(false)
 
   const defaultImage = '/placeholder-playlist.svg'
+
+  const isCurrentTrackFromThisPlaylist = () => {
+    if (!currentTrack || !playlist?.tracks) return false
+    return playlist.tracks.some(track => track.id === currentTrack.id)
+  }
 
   const handleImageError = (e) => {
     e.target.src = defaultImage
@@ -36,18 +41,23 @@ function TrackDetailView({
     if (!playlist || !playlist.tracks || playlist.tracks.length === 0) return
     
     try {
-      if (playlist.isLikedSongs) {
-        await playTrack({
-          uris: playlist.tracks.map(track => track.uri)
-        })
+      if (isPlaying && currentTrack && isCurrentTrackFromThisPlaylist()) {
+        await pausePlayback()
+        setIsPlaying(false)
       } else {
-        await playTrack({
-          contextUri: `spotify:playlist:${playlist.id}`
-        })
+        if (playlist.isLikedSongs) {
+          await playTrack({
+            uris: playlist.tracks.map(track => track.uri)
+          })
+        } else {
+          await playTrack({
+            contextUri: `spotify:playlist:${playlist.id}`
+          })
+        }
+        setIsPlaying(true)
       }
-      setIsPlaying(true)
     } catch (err) {
-      if (err?.response?.data?.error.includes('No active device found')) {
+      if (err?.response?.data?.error?.includes('No active device found')) {
         setToast({
           message: (
             <>
@@ -68,7 +78,6 @@ function TrackDetailView({
   }
 
   const handleTrackPlay = async (trackId) => {
-    setCurrentTrack(trackId)
     try {
       const track = playlist.tracks.find(t => t.id === trackId)
       if (!track) return
@@ -85,6 +94,8 @@ function TrackDetailView({
           offset: { position: playlist.tracks.findIndex(t => t.id === trackId) }
         })
       }
+      
+      setCurrentTrack(track)
       setIsPlaying(true)
     } catch (err) {
       if (err?.response?.data?.error.includes('No active device found')) {
@@ -319,12 +330,12 @@ function TrackDetailView({
 
         <section className={styles.controlsSection}>
           <button
-            className={`${styles.playButton} ${isPlaying ? styles.playing : ''}`}
+            className={`${styles.playButton} ${isPlaying && isCurrentTrackFromThisPlaylist() ? styles.playing : ''}`}
             onClick={handlePlayPause}
-            aria-label={isPlaying ? 'Pausar' : 'Reproduzir'}
+            aria-label={isPlaying && isCurrentTrackFromThisPlaylist() ? 'Pausar' : 'Reproduzir'}
             disabled={!playlist.tracks || playlist.tracks.length === 0}
           >
-            {isPlaying ? (
+            {isPlaying && isCurrentTrackFromThisPlaylist() ? (
               <svg viewBox="0 0 24 24" className={styles.playIcon}>
                 <rect x="6" y="4" width="4" height="16" fill="currentColor" />
                 <rect x="14" y="4" width="4" height="16" fill="currentColor" />
@@ -374,12 +385,12 @@ function TrackDetailView({
                 {playlist.tracks.map((track, index) => (
                   <div
                     key={track.id}
-                    className={`${styles.trackRow} ${currentTrack === track.id ? styles.currentTrack : ''}`}
+                    className={`${styles.trackRow} ${currentTrack?.id === track.id ? styles.currentTrack : ''}`}
                     onClick={() => !track.isLocal && handleTrackPlay(track.id)}
                     style={{ cursor: track.isLocal ? 'default' : 'pointer' }}
                   >
                     <div className={styles.trackNumberCell}>
-                      {currentTrack === track.id && isPlaying ? (
+                      {currentTrack?.id === track.id && isPlaying && isCurrentTrackFromThisPlaylist() ? (
                         <div className={styles.playingIndicator}>
                           <span></span>
                           <span></span>

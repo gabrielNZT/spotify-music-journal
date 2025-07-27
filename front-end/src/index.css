@@ -35,13 +35,48 @@ input {
 
 
 :root {
+  /* Cores do Spotify */
   --spotify-green: #1db954;
-  --spotify-black: #000;
-  --spotify-dark-gray: #121212;
+  --spotify-green-hover: #1ed760;
+  --spotify-green-rgb: 29, 185, 84;
+  --spotify-black: #121212;
+  --spotify-dark-gray: #181818;
   --spotify-gray: #191414;
-  --spotify-light-gray: #282828;
-  --spotify-white: #fff;
+  --spotify-medium-gray: #282828;
+  --spotify-light-gray: #b3b3b3;
+  --spotify-white: #ffffff;
+  --spotify-red: #e22134;
+  
+  /* Cores de texto */
   --spotify-text-bright: #fff;
   --spotify-text-base: #b3b3b3;
   --spotify-text-subdued: #6a6a6a;
+  
+  /* Border radius */
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 16px;
+  --border-radius-full: 50%;
+  
+  /* Espaçamentos */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Sombras */
+  --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.4);
+  
+  /* Transições */
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Skeleton loading */
+  --skeleton-blue-base: #2a2e4a;
+  --skeleton-blue-highlight: #3b4070;
 }
