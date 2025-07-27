@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getPlaylistDetails, getPlaylistTracks } from '../../services/api'
+import { getPlaylistDetails, getPlaylistTracks, addFavorite, removeFavorite, getPlaylistFavorites } from '../../services/api'
 import { playTrack } from '../../services/player'
 import { formatCompletePlaylistData, formatTrackData } from '../../utils/spotifyDataFormatter'
 import styles from './PlaylistDetail.module.css'
@@ -29,40 +29,22 @@ function PlaylistDetail() {
     e.target.src = defaultImage
   }
 
-    useEffect(() => {
-    if (!playlist || !playlist.tracks) return
-    const fetchFavorites = async () => {
-      const states = {}
-      await Promise.all(
-        playlist.tracks.map(async (track) => {
-          try {
-            const res = await import('../../services/api').then(mod => mod.checkFavorite(track.id))
-            states[track.id] = res.isFavorite
-          } catch {
-            states[track.id] = false
-          }
-        })
-      )
-      setFavoriteStates(states)
-    }
-    fetchFavorites()
-  }, [playlist])
-
   const handleToggleFavorite = async (track, e) => {
     e.stopPropagation()
     const isCurrentlyFavorite = favoriteStates[track.id] ?? false
     try {
       if (isCurrentlyFavorite) {
-        await import('../../services/api').then(mod => mod.removeFavorite(track.id))
+        await removeFavorite(track.id)
         setFavoriteStates(prev => ({ ...prev, [track.id]: false }))
         setToast({ message: 'Removido dos favoritos', type: 'success' })
       } else {
-        await import('../../services/api').then(mod => mod.addFavorite({
+        await addFavorite({
           spotifyTrackId: track.id,
           trackName: track.name,
           artistName: track.artist,
-          albumImageUrl: track.image
-        }))
+          albumImageUrl: track.image,
+          playlistId: id
+        })
         setFavoriteStates(prev => ({ ...prev, [track.id]: true }))
         setToast({ message: 'Adicionado aos favoritos', type: 'success' })
       }
@@ -145,9 +127,10 @@ function PlaylistDetail() {
     setLoading(true);
     setError(null);
     try {
-      const [playlistDetailsResponse, playlistTracksResponse] = await Promise.all([
+      const [playlistDetailsResponse, playlistTracksResponse, playlistFavoritesResponse] = await Promise.all([
         getPlaylistDetails(id),
-        getPlaylistTracks(id, { limit: 50, offset: 0 })
+        getPlaylistTracks(id, { limit: 50, offset: 0 }),
+        getPlaylistFavorites(id)
       ]);
 
       if (!playlistDetailsResponse?.playlist) {
@@ -155,6 +138,15 @@ function PlaylistDetail() {
       }
 
       const formattedPlaylist = formatCompletePlaylistData(playlistDetailsResponse.playlist, playlistTracksResponse);
+
+      let favoriteStatesObj = {};
+      if (playlistFavoritesResponse?.favorites && formattedPlaylist.tracks && formattedPlaylist.tracks.length > 0) {
+        const favoriteIds = new Set(playlistFavoritesResponse.favorites.map(fav => fav.spotifyTrackId));
+        formattedPlaylist.tracks.forEach(track => {
+          favoriteStatesObj[track.id] = favoriteIds.has(track.id);
+        });
+      }
+      setFavoriteStates(favoriteStatesObj);
       setPlaylist(formattedPlaylist);
       setPagination(formattedPlaylist.pagination);
     } catch (err) {

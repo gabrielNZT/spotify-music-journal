@@ -19,6 +19,5 @@ const categorySchema = new mongoose.Schema({
 });
 
 categorySchema.index({ user: 1, name: 1 }, { unique: true });
-categorySchema.index({ user: 1 });
 
 module.exports = mongoose.model('Category', categorySchema);

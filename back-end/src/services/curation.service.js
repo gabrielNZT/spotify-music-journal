@@ -1,7 +1,47 @@
 const { Favorite, Category, Comment } = require('../models');
 
+const getFavoritesByPlaylist = async (userId, playlistId, options = {}) => {
+  let { page = 1, limit = 20 } = options;
+  page = Number.isInteger(page) ? page : parseInt(page);
+  limit = Number.isInteger(limit) ? limit : parseInt(limit);
+  if (!limit || limit < 1 || limit > 100) limit = 20;
+  if (!page || page < 1) page = 1;
+  const skip = (page - 1) * limit;
+
+  const [favorites, total] = await Promise.all([
+    Favorite.find({ user: userId, playlistId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('user', 'displayName email'),
+    Favorite.countDocuments({ user: userId, playlistId })
+  ]);
+
+  const formattedFavorites = favorites.map(favorite => ({
+    id: favorite._id,
+    spotifyTrackId: favorite.spotifyTrackId,
+    trackName: favorite.trackName,
+    artistName: favorite.artistName,
+    albumImageUrl: favorite.albumImageUrl,
+    createdAt: favorite.createdAt,
+    user: favorite.user
+  }));
+
+  return {
+    favorites: formattedFavorites,
+    pagination: {
+      page,
+      limit,
+      total,
+      pages: Math.ceil(total / limit),
+      hasNext: page < Math.ceil(total / limit),
+      hasPrev: page > 1
+    }
+  };
+};
+
 const addFavorite = async (userId, trackData) => {
-  const { spotifyTrackId, trackName, artistName, albumImageUrl } = trackData;
+  const { spotifyTrackId, trackName, artistName, albumImageUrl, playlistId } = trackData;
 
   const existingFavorite = await Favorite.findOne({
     user: userId,
@@ -17,7 +57,8 @@ const addFavorite = async (userId, trackData) => {
     spotifyTrackId,
     trackName,
     artistName,
-    albumImageUrl
+    albumImageUrl,
+    playlistId
   });
 
   await favorite.save();
@@ -429,5 +470,6 @@ module.exports = {
   addComment,
   updateComment,
   deleteComment,
-  getFavoriteComments
+  getFavoriteComments,
+  getFavoritesByPlaylist
 };

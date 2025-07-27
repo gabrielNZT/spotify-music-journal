@@ -1,3 +1,14 @@
+export const getPlaylistFavorites = async (playlistId, { page = 1, limit = 50 } = {}) => {
+  try {
+    const response = await apiClient.get(`/curation/favorites`, {
+      params: { playlistId, page, limit }
+    })
+    return response.data
+  } catch (error) {
+    console.error('Erro ao obter favoritos da playlist:', error)
+    throw error
+  }
+}
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3001/api'

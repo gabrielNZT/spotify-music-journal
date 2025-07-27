@@ -10,6 +10,10 @@ const favoriteSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  playlistId: {
+    type: String, 
+    required: true 
+  },
   trackName: { 
     type: String 
   },
@@ -24,7 +28,5 @@ const favoriteSchema = new mongoose.Schema({
 });
 
 favoriteSchema.index({ user: 1, spotifyTrackId: 1 }, { unique: true });
-favoriteSchema.index({ user: 1 });
-favoriteSchema.index({ spotifyTrackId: 1 });
 
 module.exports = mongoose.model('Favorite', favoriteSchema);

@@ -7,6 +7,7 @@ const addFavorite = async (req, res) => {
     await body('trackName').optional().isString().run(req);
     await body('artistName').optional().isString().run(req);
     await body('albumImageUrl').optional().isURL().run(req);
+    await body('playlistId').isString().notEmpty().run(req);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -16,14 +17,15 @@ const addFavorite = async (req, res) => {
       });
     }
 
-    const { spotifyTrackId, trackName, artistName, albumImageUrl } = req.body;
+    const { spotifyTrackId, trackName, artistName, albumImageUrl, playlistId } = req.body;
     const userId = req.userId;
 
     const favorite = await curationService.addFavorite(userId, {
       spotifyTrackId,
       trackName,
       artistName,
-      albumImageUrl
+      albumImageUrl,
+      playlistId
     });
 
     res.status(201).json({
@@ -86,13 +88,21 @@ const removeFavorite = async (req, res) => {
 const getUserFavorites = async (req, res) => {
   try {
     const userId = req.userId;
-    const { page = 1, limit = 20 } = req.query;
+    const { page = 1, limit = 20, playlistId } = req.query;
 
-    const result = await curationService.getUserFavorites(userId, {
-      page: parseInt(page),
-      limit: parseInt(limit)
-    });
-
+    let result;
+    if (playlistId) {
+      // Novo: busca favoritos apenas dessa playlist
+      result = await curationService.getFavoritesByPlaylist(userId, playlistId, {
+        page: parseInt(page),
+        limit: parseInt(limit)
+      });
+    } else {
+      result = await curationService.getUserFavorites(userId, {
+        page: parseInt(page),
+        limit: parseInt(limit)
+      });
+    }
     res.json(result);
   } catch (error) {
     console.error('Get favorites error:', error);
