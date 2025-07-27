@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useUser } from '../../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import { playTrack } from '../../services/player'
 import { addFavorite, removeFavorite } from '../../services/api'
@@ -17,6 +18,7 @@ function TrackDetailView({
   skeleton: SkeletonComponent 
 }) {
   const navigate = useNavigate()
+  const { user } = useUser()
   const [toast, setToast] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(null)
@@ -116,7 +118,6 @@ function TrackDetailView({
         setFavoriteStates(prev => ({ ...prev, [track.id]: false }))
         setToast({ message: 'Removido dos favoritos', type: 'success' })
 
-        // Remove da listagem se for isLikedSongs
         if (isLikedSongs) {
           if (playlist && playlist.tracks) {
             const updatedTracks = playlist.tracks.filter(t => t.id !== track.id)
@@ -136,7 +137,7 @@ function TrackDetailView({
         })
         setFavoriteStates(prev => ({ ...prev, [track.id]: true }))
         setToast({ message: 'Adicionado aos favoritos', type: 'success' })
-        
+
         if (onToggleFavorite) {
           onToggleFavorite(track.id, true)
         }
@@ -268,13 +269,31 @@ function TrackDetailView({
               )}
 
               <div className={styles.playlistMeta}>
-                <img
-                  src="/user-avatar.svg"
-                  alt={playlist.owner.displayName}
-                  className={styles.ownerAvatar}
-                  onError={handleImageError}
-                />
-                <span className={styles.ownerName}>{playlist.owner.displayName}</span>
+                {playlist.isLikedSongs ? (
+                  <>
+                    <img
+                      src={user?.profileImageUrl || "/user-avatar.svg"}
+                      alt={user?.displayName || "Usuário"}
+                      className={styles.ownerAvatar}
+                      onError={handleImageError}
+                    />
+                    <span className={styles.ownerName}>
+                      {user?.displayName || "Usuário"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={playlist.owner?.photoURL || "/user-avatar.svg"}
+                      alt={playlist.owner?.displayName || "Dono"}
+                      className={styles.ownerAvatar}
+                      onError={handleImageError}
+                    />
+                    <span className={styles.ownerName}>
+                      {playlist.owner?.displayName || "Dono"}
+                    </span>
+                  </>
+                )}
                 {playlist.followers && playlist.followers > 0 && (
                   <>
                     <span className={styles.metaDivider}>•</span>

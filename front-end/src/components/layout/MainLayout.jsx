@@ -1,10 +1,12 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { authService } from '../../services/api'
 import styles from './MainLayout.module.css'
+import { UserContext } from '../../context/UserContext'
 
 function MainLayout({ children }) {
   const [user, setUser] = useState(null)
+  const { setUser: setGlobalUser } = useContext(UserContext)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const location = useLocation()
   const [activeMenu, setActiveMenu] = useState('/dashboard')
@@ -15,12 +17,14 @@ function MainLayout({ children }) {
       try {
         const response = await authService.getMe()
         setUser(response.user)
+        setGlobalUser(response.user)
       } catch (error) {
         console.error('Failed to fetch user data', error)
+        setGlobalUser(null)
       }
     }
     fetchUser()
-  }, [])
+  }, [setGlobalUser])
 
   useEffect(() => {
     setActiveMenu(location.pathname)

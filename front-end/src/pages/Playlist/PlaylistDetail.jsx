@@ -8,9 +8,11 @@ import styles from './PlaylistDetail.module.css'
 import PlaylistDetailSkeleton from './PlaylistDetailSkeleton'
 import { useCallback } from 'react'
 import { SpotifyToast } from '../../components'
+import { useUser } from '../../context/UserContext'
 
 function PlaylistDetail() {
   const { id } = useParams()
+  const { user } = useUser()
   const navigate = useNavigate()
   const { currentTrack, isPlaying, setIsPlaying } = useMusicPlayer()
   const [loading, setLoading] = useState(true)
@@ -21,7 +23,11 @@ function PlaylistDetail() {
   const [pagination, setPagination] = useState(null)
   const loadMoreRef = useRef(null)
   const isFetchingRef = useRef(false)
-   const [favoriteStates, setFavoriteStates] = useState({})
+  const [favoriteStates, setFavoriteStates] = useState({})
+
+  const isOwner = (playlist) => {
+    return playlist.owner.displayName === user.displayName
+  }
 
   const defaultImage = '/placeholder-playlist.svg'
 
@@ -315,7 +321,7 @@ function PlaylistDetail() {
 
               <div className={styles.playlistMeta}>
                 <img
-                  src="/user-avatar.svg"
+                  src={isOwner(playlist) ? user.profileImageUrl : '/user-avatar.svg'}
                   alt={playlist.owner.displayName}
                   className={styles.ownerAvatar}
                   onError={handleImageError}
