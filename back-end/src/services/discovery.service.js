@@ -20,8 +20,8 @@ class DiscoveryService {
       
       for (const rec of geminiRecommendations) {
         try {
-          const searchQuery = `musica:"${rec.trackName}" artista:"${rec.artistName}"`;
-          const spotifyResults = await spotifyService.searchTracks(userId, searchQuery, { limit: 5 });
+          const searchQuery = `track:"${rec.trackName}" artist:"${rec.artistName}"`;
+          const spotifyResults = await spotifyService.searchTracks(userId, searchQuery, { limit: 1 });
           
           if (spotifyResults.tracks.items.length > 0) {
             const track = spotifyResults.tracks.items[0];
