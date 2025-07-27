@@ -39,8 +39,7 @@ router.post('/generate', authMiddleware.protect, async (req, res) => {
   }
 });
 
-// GET /api/discovery/history
-// Buscar histórico de descobertas do usuário
+
 router.get('/history', authMiddleware.protect, async (req, res) => {
   try {
     const userId = req.user.id;

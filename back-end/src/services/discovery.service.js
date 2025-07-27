@@ -5,28 +5,23 @@ const { Recommendation, Favorite } = require('../models');
 class DiscoveryService {
   async generateRecommendation(userId, userInput) {
     try {
-      // 1. Buscar favoritos do usuário para contexto
       const userFavorites = await Favorite.find({ user: userId })
         .limit(10)
         .sort({ createdAt: -1 })
         .select('spotifyTrackId trackName artistName');
 
-      // 2. Gerar recomendação com Gemini
       const { prompt, response } = await geminiService.generateMusicRecommendation(
         userInput, 
         userFavorites
       );
 
-      // 3. Parsear recomendações do Gemini
       const geminiRecommendations = geminiService.parseRecommendations(response);
-
-      // 4. Buscar cada música no Spotify
       const spotifyRecommendations = [];
       
       for (const rec of geminiRecommendations) {
         try {
           const searchQuery = `musica:"${rec.trackName}" artista:"${rec.artistName}"`;
-          const spotifyResults = await spotifyService.searchTracks(userId, searchQuery, { limit: 1 });
+          const spotifyResults = await spotifyService.searchTracks(userId, searchQuery, { limit: 5 });
           
           if (spotifyResults.tracks.items.length > 0) {
             const track = spotifyResults.tracks.items[0];
