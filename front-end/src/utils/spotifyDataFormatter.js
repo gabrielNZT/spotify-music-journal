@@ -74,7 +74,7 @@ export const formatTrackData = (trackItem) => {
 
   if (track.isLocal || !track.id) {
     return {
-      id: `local_${Math.random().toString(36).substr(2, 9)}`, // ID único para faixas locais
+      id: `local_${Math.random().toString(36).substr(2, 9)}`,
       name: track.name || 'Faixa local',
       artist: track.artists?.[0]?.name || 'Artista desconhecido',
       album: track.album?.name || 'Álbum desconhecido',
@@ -102,7 +102,7 @@ export const formatTrackData = (trackItem) => {
     isLocal: false,
     isAvailable: true,
     previewUrl: track.previewUrl,
-    image: track.album?.images?.[2]?.url || track.album?.images?.[0]?.url || null, // Usa imagem menor (64x64) se disponível
+    image: track.album?.images?.[2]?.url || track.album?.images?.[0]?.url || null,
     popularity: track.popularity || 0,
     explicit: track.explicit === true,
     externalUrls: track.externalUrls || {},
@@ -134,7 +134,7 @@ export const formatCompletePlaylistData = (playlistDetails, tracksResponse) => {
   const formattedPlaylist = formatPlaylistData(playlistDetails)
   const formattedTracks = (tracksResponse?.tracks || [])
     .map(formatTrackData)
-    .filter(Boolean) // Remove faixas nulas/inválidas
+    .filter(Boolean)
   
   const totalDurationMs = calculateTotalDuration(formattedTracks)
   
