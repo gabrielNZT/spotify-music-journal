@@ -116,6 +116,17 @@
   transform: scale(0.98);
 }
 
+.controlButton.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.controlButton.disabled:hover {
+  color: #b3b3b3;
+  transform: none;
+}
+
 .controlIcon {
   width: 16px;
   height: 16px;
@@ -214,6 +225,17 @@
 .volumeButton:hover {
   color: white;
   transform: scale(1.06);
+}
+
+.volumeButton.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.volumeButton.disabled:hover {
+  color: #b3b3b3;
+  transform: none;
 }
 
 .volumeIcon {

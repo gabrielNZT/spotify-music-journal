@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
   refreshToken: { 
     type: String, 
     required: true 
+  },
+  product: {
+    type: String,
   }
 }, { 
   timestamps: true 

@@ -1,8 +1,10 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 export const UserContext = createContext({
   user: null,
-  setUser: () => {}
+  setUser: () => {},
+  showPremiumModal: false,
+  setShowPremiumModal: () => {},
 })
 
 export function useUser() {

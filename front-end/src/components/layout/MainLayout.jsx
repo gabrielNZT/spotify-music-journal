@@ -3,27 +3,16 @@ import { useState, useEffect, useContext } from 'react'
 import { authService } from '../../services/api'
 import styles from './MainLayout.module.css'
 import { UserContext } from '../../context/UserContext'
+import { usePremium } from '../../hooks/usePremium'
+import PremiumBadge from '../PremiumBadge/PremiumBadge'
 
 function MainLayout({ children }) {
-  const [user, setUser] = useState(null)
-  const { setUser: setGlobalUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
+  const { isPremium } = usePremium()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const location = useLocation()
   const [activeMenu, setActiveMenu] = useState('/playlists')
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await authService.getMe()
-        setUser(response.user)
-        setGlobalUser(response.user)
-      } catch {
-        setGlobalUser(null)
-      }
-    }
-    fetchUser()
-  }, [setGlobalUser])
 
   useEffect(() => {
     setActiveMenu(location.pathname)
@@ -82,7 +71,7 @@ function MainLayout({ children }) {
                 <button
                   type="button"
                   className={`${styles.desktopNavLink} ${activeMenu.includes('/playlists') ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/playlists'); navigate('/playlists'); }}
+                  onClick={() => { navigate('/playlists'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -95,7 +84,7 @@ function MainLayout({ children }) {
                 <button
                   type="button"
                   className={`${styles.desktopNavLink} ${activeMenu.includes('/liked-songs') ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/liked-songs'); navigate('/liked-songs'); }}
+                  onClick={() => { navigate('/liked-songs'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -108,7 +97,7 @@ function MainLayout({ children }) {
                 <button
                   type="button"
                   className={`${styles.desktopNavLink} ${activeMenu.includes('/discover') ? styles.activeNav : ''}`}
-                  onClick={() => { setActiveMenu('/discover'); navigate('/discover'); }}
+                  onClick={() => { navigate('/discover'); }}
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
                   <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -131,7 +120,10 @@ function MainLayout({ children }) {
                     <path d="M16 17c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.314 0-10 1.657-10 5v2h20v-2c0-3.343-6.686-5-10-5z" fill="#fff" />
                   </svg>
                 )}
-                <span className={styles.userName}>{user.displayName}</span>
+                <div className={styles.userInfo}>
+                  <span className={styles.userName}>{user.displayName}</span>
+                  {isPremium && <PremiumBadge variant="subtle" size="small" />}
+                </div>
               </div>
             ) : (
               <div className={styles.userProfile}>
@@ -168,7 +160,7 @@ function MainLayout({ children }) {
               <button
                 type="button"
                 className={`${styles.mobileNavLink} ${activeMenu.includes('/playlists') ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/playlists'); navigate('/playlists'); closeSidebar(); }}
+                onClick={() => { navigate('/playlists'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -181,7 +173,7 @@ function MainLayout({ children }) {
               <button
                 type="button"
                 className={`${styles.mobileNavLink} ${activeMenu.includes('/liked-songs') ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/liked-songs'); navigate('/liked-songs'); closeSidebar(); }}
+                onClick={() => { navigate('/liked-songs'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -194,7 +186,7 @@ function MainLayout({ children }) {
               <button
                 type="button"
                 className={`${styles.mobileNavLink} ${activeMenu.includes('/discover') ? styles.activeNav : ''}`}
-                onClick={() => { setActiveMenu('/discover'); navigate('/discover'); closeSidebar(); }}
+                onClick={() => { navigate('/discover'); closeSidebar(); }}
                 style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
               >
                 <svg className={styles.navIcon} fill="currentColor" viewBox="0 0 20 20">
@@ -204,20 +196,20 @@ function MainLayout({ children }) {
               </button>
             </li>
           </ul>
-          
-          <div className={styles.mobileUserSection}>
-            <button className={styles.logoutButton} onClick={handleLogout}>
-              Sair
-            </button>
-          </div>
         </nav>
+        
+        <div className={styles.mobileUserSection}>
+          <button className={styles.logoutButton} onClick={handleLogout}>
+            Sair
+          </button>
+        </div>
       </div>
 
       
       <main className={styles.mainContent}>
         {children || <Outlet />}
       </main>
-    </div>
+    </div >
   )
 }
 

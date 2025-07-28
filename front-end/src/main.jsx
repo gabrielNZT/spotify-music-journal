@@ -1,14 +1,14 @@
 import React from 'react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { UserContext } from './context/UserContext'
+import './index.css'
+import { UserProvider } from './context/UserProvider.jsx'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <UserContext.Provider value={{ user: null, setUser: () => {} }}>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <UserProvider>
       <App />
-    </UserContext.Provider>
-  </StrictMode>
+    </UserProvider>
+  </React.StrictMode>,
 )
+

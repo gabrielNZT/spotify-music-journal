@@ -28,3 +28,15 @@
   height: 24px;
   display: block;
 }
+
+.playButton.disabled {
+  background: #666;
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.playButton.disabled:hover {
+  background: #666;
+}

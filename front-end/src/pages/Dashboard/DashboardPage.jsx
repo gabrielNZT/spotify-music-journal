@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { getUserPlaylists } from '../../services/api'
+import { usePremium } from '../../hooks/usePremium'
+import { FreeTierBanner } from '../../components'
 import styles from './DashboardPage.module.css'
 import PlaylistList from '../../components/PlaylistList/PlaylistList'
 import PlaylistSkeleton from '../../components/PlaylistList/PlaylistSkeleton'
 
 function DashboardPage() {
+  const { isFree } = usePremium()
+  
   const [playlists, setPlaylists] = useState([])
   const [pagination, setPagination] = useState({
     limit: 20,
@@ -84,6 +88,12 @@ function DashboardPage() {
 
   return (
     <div className={styles.dashboardContainer}>
+      {isFree && (
+        <FreeTierBanner 
+          message="Assine o Spotify Premium para ter acesso total às funcionalidades de reprodução"
+        />
+      )}
+      
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Suas Playlists</h2>

@@ -1,0 +1,124 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.container:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.tooltip {
+  position: absolute;
+  background: #1a1a1a;
+  border: 1px solid #FFD700;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  min-width: 200px;
+  max-width: 280px;
+}
+
+.tooltip.top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  margin-bottom: 8px;
+}
+
+.tooltip.bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  margin-top: 8px;
+}
+
+.tooltip.left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  margin-right: 8px;
+}
+
+.tooltip.right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  margin-left: 8px;
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  border: 6px solid transparent;
+}
+
+.tooltip.top::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: #FFD700;
+}
+
+.tooltip.bottom::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: #FFD700;
+}
+
+.tooltip.left::before {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: #FFD700;
+}
+
+.tooltip.right::before {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: #FFD700;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  color: #FFD700;
+  flex-shrink: 0;
+}
+
+.upgradeLink {
+  display: block;
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  color: white;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.upgradeLink:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(29, 185, 84, 0.4);
+}

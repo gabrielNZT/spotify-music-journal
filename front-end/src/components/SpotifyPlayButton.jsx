@@ -1,19 +1,30 @@
 import React from 'react'
 import styles from './SpotifyPlayButton.module.css'
 import { useMusicPlayer } from '../hooks/useMusicPlayer'
+import { usePremium } from '../hooks/usePremium'
+import { useUser } from '../context/UserContext'
 import { playTrack, pausePlayback } from '../services/player'
+import { PremiumTooltip } from '.'
 
 function SpotifyPlayButton({ track, propsHandlePlayPause }) {
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack } = useMusicPlayer()
+  const { isPremium } = usePremium()
+  const { setShowPremiumModal } = useUser()
 
   const isCurrentTrack = currentTrack?.id === track.spotifyTrackId
 
   const handlePlayPause = async (e) => {
+    e.stopPropagation && e.stopPropagation()
+
+    if (!isPremium) {
+      setShowPremiumModal(true)
+      return
+    }
+
     if (propsHandlePlayPause) {
       return propsHandlePlayPause?.(e, isPlaying, isCurrentTrack)
     }
 
-    e.stopPropagation && e.stopPropagation()
     try {
       if (isPlaying && isCurrentTrack) {
         await pausePlayback()
@@ -37,9 +48,10 @@ function SpotifyPlayButton({ track, propsHandlePlayPause }) {
 
   return (
     <button
-      className={`${styles.playButton} ${isPlaying && isCurrentTrack ? styles.playing : ''}`}
+      className={`${styles.playButton} ${isPlaying && isCurrentTrack ? styles.playing : ''} ${!isPremium ? styles.disabled : ''}`}
       onClick={handlePlayPause}
       aria-label={isPlaying && isCurrentTrack ? 'Pausar música' : 'Reproduzir música'}
+      disabled={!isPremium}
     >
       {isPlaying && isCurrentTrack ? (
         <svg viewBox="0 0 24 24" className={styles.playIcon}>

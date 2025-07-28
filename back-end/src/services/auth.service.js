@@ -99,6 +99,7 @@ const createOrUpdateUser = async (spotifyUser, accessToken, refreshToken) => {
     displayName: spotifyUser.display_name,
     email: spotifyUser.email,
     profileImageUrl: spotifyUser.images?.[0]?.url || null,
+    product: spotifyUser.product,
     accessToken: encryptedAccessToken,
     refreshToken: encryptedRefreshToken
   };

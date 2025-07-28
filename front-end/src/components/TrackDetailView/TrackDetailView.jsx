@@ -6,20 +6,22 @@ import { addFavorite, removeFavorite } from '../../services/api'
 import { useMusicPlayer } from '../../hooks/useMusicPlayer'
 import styles from './TrackDetailView.module.css'
 import { SpotifyToast } from '../'
+import { usePremium } from '../../hooks/usePremium'
 
-function TrackDetailView({ 
-  playlist, 
-  loading, 
-  error, 
-  onRetry, 
-  onLoadMore, 
+function TrackDetailView({
+  playlist,
+  loading,
+  error,
+  onRetry,
+  onLoadMore,
   loadingMore = false,
   onToggleFavorite,
   isLikedSongs = false,
-  skeleton: SkeletonComponent 
+  skeleton: SkeletonComponent
 }) {
   const navigate = useNavigate()
-  const { user } = useUser()
+  const { user, setShowPremiumModal } = useUser()
+  const { isFree } = usePremium()
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack } = useMusicPlayer()
   const [toast, setToast] = useState(null)
   const [favoriteStates, setFavoriteStates] = useState({})
@@ -39,7 +41,11 @@ function TrackDetailView({
 
   const handlePlayPause = async () => {
     if (!playlist || !playlist.tracks || playlist.tracks.length === 0) return
-    
+
+    if (isFree) {
+      return setShowPremiumModal(true)
+    }
+
     try {
       if (isPlaying && currentTrack && isCurrentTrackFromThisPlaylist()) {
         await pausePlayback()
@@ -82,6 +88,10 @@ function TrackDetailView({
       const track = playlist.tracks.find(t => t.id === trackId)
       if (!track) return
 
+      if (isFree) {
+        return setShowPremiumModal(true)
+      }
+
       if (playlist.isLikedSongs) {
         const trackIndex = playlist.tracks.findIndex(t => t.id === trackId)
         await playTrack({
@@ -94,7 +104,7 @@ function TrackDetailView({
           offset: { position: playlist.tracks.findIndex(t => t.id === trackId) }
         })
       }
-      
+
       setCurrentTrack(track)
       setIsPlaying(true)
     } catch (err) {
@@ -120,9 +130,9 @@ function TrackDetailView({
 
   const handleToggleFavorite = async (track, e) => {
     e.stopPropagation()
-    
+
     const isCurrentlyFavorite = favoriteStates[track.id] ?? false
-    
+
     try {
       if (isCurrentlyFavorite || isLikedSongs) {
         await removeFavorite(track.id)
@@ -449,8 +459,8 @@ function TrackDetailView({
             ) : (
               <div className={styles.emptyTracksMessage}>
                 <p>
-                  {playlist.isLikedSongs 
-                    ? 'Você ainda não curtiu nenhuma música. Explore e adicione suas favoritas!' 
+                  {playlist.isLikedSongs
+                    ? 'Você ainda não curtiu nenhuma música. Explore e adicione suas favoritas!'
                     : 'Esta playlist não possui músicas.'}
                 </p>
               </div>

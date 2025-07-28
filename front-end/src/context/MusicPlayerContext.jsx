@@ -13,7 +13,6 @@ export function MusicPlayerProvider({ children }) {
   const [showPremiumModal, setShowPremiumModal] = useState(false)
   const intervalRef = useRef(null)
 
-  // Fetch current track info
   const fetchCurrentTrack = useCallback(async () => {
     try {
       const response = await getCurrentlyPlaying()
@@ -40,14 +39,12 @@ export function MusicPlayerProvider({ children }) {
         setIsPlaying(false)
       }
     } catch {
-      // Silent error handling - player not active or no permission
       setIsVisible(false)
       setCurrentTrack(null)
       setIsPlaying(false)
     }
   }, [showPremiumModal])
 
-  // Update progress bar
   useEffect(() => {
     if (isPlaying && currentTrack && !isPremiumRequired) {
       intervalRef.current = setInterval(() => {
@@ -70,7 +67,6 @@ export function MusicPlayerProvider({ children }) {
     }
   }, [isPlaying, currentTrack, duration, isPremiumRequired])
 
-  // Fetch track info periodically
   useEffect(() => {
     if (!isPremiumRequired) {
       fetchCurrentTrack()
@@ -81,6 +77,7 @@ export function MusicPlayerProvider({ children }) {
   }, [isPremiumRequired, fetchCurrentTrack])
 
   const closePremiumModal = () => {
+    console.log('Closing premium modal')
     setShowPremiumModal(false)
   }
 

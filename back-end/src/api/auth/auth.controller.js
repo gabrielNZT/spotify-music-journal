@@ -50,6 +50,7 @@ const getMe = async (req, res) => {
         displayName: user.displayName,
         email: user.email,
         profileImageUrl: user.profileImageUrl,
+        product: user.product,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       }

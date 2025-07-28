@@ -20,29 +20,37 @@ const apiClient = axios.create({
   },
 })
 
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('jwt_token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+export const setupInterceptors = (setShowPremiumModal) => {
+  apiClient.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('jwt_token')
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+      return config
+    },
+    (error) => {
+      return Promise.reject(error)
     }
-    return config
-  },
-  (error) => {
-    return Promise.reject(error)
-  }
-)
+  )
 
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('jwt_token')
-      window.location.href = '/login'
+  apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        localStorage.removeItem('jwt_token')
+        window.location.href = '/login'
+      }
+
+      if (error.response?.data?.error?.toLowerCase().includes('premium required')) {
+        setShowPremiumModal(true)
+        return Promise.resolve({ error: true, message: 'Premium required for this action' });
+      }
+
+      return Promise.reject(error)
     }
-    return Promise.reject(error)
-  }
-)
+  )
+}
 
 export const authService = {
   getSpotifyAuthUrl: async () => {

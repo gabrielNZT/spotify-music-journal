@@ -433,6 +433,16 @@
   color: var(--spotify-green);
 }
 
+.likeButton.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.likeButton.disabled:hover {
+  transform: none;
+}
+
 .heartIcon {
   width: 16px;
   height: 16px;

@@ -1,18 +1,19 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getPlaylistDetails, getPlaylistTracks, addFavorite, removeFavorite, getPlaylistFavorites } from '../../services/api'
 import { playTrack, pausePlayback } from '../../services/player'
 import { useMusicPlayer } from '../../hooks/useMusicPlayer'
+import { usePremium } from '../../hooks/usePremium'
 import { formatCompletePlaylistData, formatTrackData } from '../../utils/spotifyDataFormatter'
 import styles from './PlaylistDetail.module.css'
 import PlaylistDetailSkeleton from './PlaylistDetailSkeleton'
-import { useCallback } from 'react'
-import { SpotifyToast } from '../../components'
+import { SpotifyToast, FreeTierBanner, PremiumTooltip } from '../../components'
 import { useUser } from '../../context/UserContext'
 
 function PlaylistDetail() {
   const { id } = useParams()
-  const { user } = useUser()
+  const { user, setShowPremiumModal } = useUser()
+  const { isFree } = usePremium()
   const navigate = useNavigate()
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack } = useMusicPlayer()
   const [loading, setLoading] = useState(true)
@@ -47,7 +48,7 @@ function PlaylistDetail() {
       if (isCurrentlyFavorite) {
         await removeFavorite(track.id)
         setFavoriteStates(prev => ({ ...prev, [track.id]: false }))
-        setToast({ message: 'Removido dos favoritos', type: 'success' })
+        setToast({ message: 'Música removida dos favoritos', type: 'success' })
       } else {
         await addFavorite({
           spotifyTrackId: track.id,
@@ -60,19 +61,20 @@ function PlaylistDetail() {
           playlistId: id
         })
         setFavoriteStates(prev => ({ ...prev, [track.id]: true }))
-        setToast({ message: 'Adicionado aos favoritos', type: 'success' })
+        setToast({ message: 'Música adicionada aos favoritos', type: 'success' })
       }
-    } catch (err) {
-      if (err?.response?.status === 409) {
-        setToast({ message: 'Esta música já está nos favoritos', type: 'warning' })
-      } else {
-        setToast({ message: 'Erro ao atualizar favoritos', type: 'error' })
-      }
+    } catch {
+      setToast({ message: 'Erro ao atualizar favoritos', type: 'error' })
     }
   }
 
   const handlePlayPause = async () => {
     if (!playlist) return
+
+    if (isFree) {
+      return setShowPremiumModal(true)
+    }
+
     try {
       if (isPlaying && currentTrack && isCurrentTrackFromThisPlaylist()) {
         await pausePlayback()
@@ -106,14 +108,18 @@ function PlaylistDetail() {
 
   const handleTrackPlay = async (trackId) => {
     try {
+      if (isFree) {
+        return setShowPremiumModal(true)
+      }
+
       const track = playlist.tracks.find(t => t.id === trackId)
       if (!track) return
-      
+
       await playTrack({
         contextUri: `spotify:playlist:${playlist.id}`,
         offset: { position: playlist.tracks.findIndex(t => t.id === trackId) }
       })
-      
+
       setCurrentTrack(track)
       setIsPlaying(true)
     } catch (err) {
@@ -307,6 +313,13 @@ function PlaylistDetail() {
   return (
     <>
       {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={handleToastClose} />}
+
+      {isFree && (
+        <FreeTierBanner
+          message="Visualize as músicas das suas playlists, mas a reprodução completa requer Spotify Premium"
+        />
+      )}
+
       <div className={styles.detailContainer}>
         <section className={styles.heroSection}>
           <div className={styles.heroContent}>

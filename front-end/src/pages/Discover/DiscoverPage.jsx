@@ -3,12 +3,15 @@ import { FaRobot, FaMusic, FaStar } from 'react-icons/fa'
 import { RiSparklingFill } from 'react-icons/ri'
 import styles from './DiscoverPage.module.css'
 import { useMusicPlayer } from '../../hooks/useMusicPlayer'
+import { usePremium } from '../../hooks/usePremium'
 import { discoverApi } from '../../services/api'
 import { playTrack, pausePlayback } from '../../services/player'
 import SpotifyPlayButton from '../../components/SpotifyPlayButton'
-import { SpotifyToast } from '../../components'
+import { SpotifyToast, FreeTierBanner } from '../../components'
 
 const DiscoverPage = () => {
+  const { isFree } = usePremium()
+  
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState('')
@@ -130,6 +133,13 @@ const DiscoverPage = () => {
   return (
     <div className={styles.container}>
       {toast && <SpotifyToast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+      
+      {isFree && (
+        <FreeTierBanner 
+          message="As recomendações da IA estão disponíveis, mas a reprodução completa requer Spotify Premium"
+        />
+      )}
+      
       <div className={styles.header}>
         <div className={styles.headerIcon}>
           <RiSparklingFill />
