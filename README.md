@@ -351,7 +351,7 @@ docker-compose logs mongo
 ```
 
 ### Contato
-- 📧 Email: gabrielnzt@example.com
+- 📧 Email: gabrielnunescesarino@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/gabrielNZT/spotify-music-journal/issues)
 - 📱 Social: [@gabrielNZT](https://github.com/gabrielNZT)
 
