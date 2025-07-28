@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./src/config/swagger');
 const connectDB = require('./src/config/database');
 const corsConfig = require('./src/config/cors');
 const { globalErrorHandler } = require('./src/middlewares/error.middleware');
@@ -22,6 +24,13 @@ app.use(corsConfig);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
+  explorer: true,
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Spotify Music Journal API Documentation"
+}));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/curation', curationRoutes);
 app.use('/api/playlists', playlistRoutes);
@@ -33,7 +42,8 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'Spotify Music Journal API',
     version: '1.0.0',
-    status: 'running'
+    status: 'running',
+    docs: '/api-docs'
   });
 });
 
