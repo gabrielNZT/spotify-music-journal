@@ -17,8 +17,8 @@ export function MusicPlayerProvider({ children }) {
   const fetchCurrentTrack = useCallback(async () => {
     try {
       const response = await getCurrentlyPlaying()
-      
-      if (response.error === 'premium_required') {
+
+      if (response.error.toLowerCase().includes('premium required')) {
         setIsPremiumRequired(true)
         if (!showPremiumModal) {
           setShowPremiumModal(true)

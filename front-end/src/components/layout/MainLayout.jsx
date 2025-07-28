@@ -123,7 +123,14 @@ function MainLayout({ children }) {
           <div className={styles.userSection}>
             {user ? (
               <div className={styles.userProfile}>
-                <img src={user.profileImageUrl} alt={user.displayName} className={styles.userAvatar} />
+                {user.profileImageUrl ? (
+                  <img src={user.profileImageUrl} alt={user.displayName} className={styles.userAvatar} />
+                ) : (
+                  <svg className={styles.userAvatar} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="16" fill="#22272b" />
+                    <path d="M16 17c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.314 0-10 1.657-10 5v2h20v-2c0-3.343-6.686-5-10-5z" fill="#fff" />
+                  </svg>
+                )}
                 <span className={styles.userName}>{user.displayName}</span>
               </div>
             ) : (

@@ -30,7 +30,7 @@ function PlaylistList({ playlists }) {
         >
           <div className={styles.coverWrapper}>
             <img
-              src={playlist.images?.[0]?.url || '/placeholder-playlist.jpg'}
+              src={playlist.images?.[0]?.url || '/placeholder-playlist.svg'}
               alt={playlist.name}
               className={styles.coverImage}
             />
