@@ -17,15 +17,10 @@ export function MusicPlayerProvider({ children }) {
     try {
       const response = await getCurrentlyPlaying()
 
-      if (response.error.toLowerCase().includes('premium required')) {
-        setIsPremiumRequired(true)
-        if (!showPremiumModal) {
-          setShowPremiumModal(true)
-        }
-        setIsVisible(false)
-        return
+      if (response.error) {
+        throw new Error('Premium required')
       }
-      
+
       if (response.currentTrack) {
         setCurrentTrack(response.currentTrack)
         setIsPlaying(response.isPlaying)
@@ -43,6 +38,9 @@ export function MusicPlayerProvider({ children }) {
       setCurrentTrack(null)
       setIsPlaying(false)
     }
+
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPremiumModal])
 
   useEffect(() => {
@@ -71,13 +69,12 @@ export function MusicPlayerProvider({ children }) {
     if (!isPremiumRequired) {
       fetchCurrentTrack()
       const trackInterval = setInterval(fetchCurrentTrack, 5000)
-      
+
       return () => clearInterval(trackInterval)
     }
   }, [isPremiumRequired, fetchCurrentTrack])
 
   const closePremiumModal = () => {
-    console.log('Closing premium modal')
     setShowPremiumModal(false)
   }
 

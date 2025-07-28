@@ -1,13 +1,9 @@
 export const getPlaylistFavorites = async (playlistId, { page = 1, limit = 50 } = {}) => {
-  try {
-    const response = await apiClient.get(`/curation/favorites`, {
-      params: { playlistId, page, limit }
-    })
-    return response.data
-  } catch (error) {
-    console.error('Erro ao obter favoritos da playlist:', error)
-    throw error
-  }
+  const response = await apiClient.get(`/curation/favorites`, {
+    params: { playlistId, page, limit }
+  })
+  return response.data
+
 }
 import axios from 'axios';
 
@@ -54,23 +50,14 @@ export const setupInterceptors = (setShowPremiumModal) => {
 
 export const authService = {
   getSpotifyAuthUrl: async () => {
-    try {
-      const response = await apiClient.get('/auth/spotify/url')
-      return response.data
-    } catch (error) {
-      console.error('Erro ao obter URL de autenticação:', error)
-      throw error
-    }
+    const response = await apiClient.get('/auth/spotify/url')
+    return response.data
   },
 
   getMe: async () => {
-    try {
-      const response = await apiClient.get('/auth/me')
-      return response.data
-    } catch (error) {
-      console.error('Erro ao obter dados do usuário:', error)
-      throw error
-    }
+    const response = await apiClient.get('/auth/me')
+    return response.data
+
   },
 
   isAuthenticated: () => {
@@ -93,113 +80,71 @@ export const authService = {
 
 export const musicService = {
   getRecentTracks: async () => {
-    try {
-      const response = await apiClient.get('/tracks/recent')
-      return response.data
-    } catch (error) {
-      console.error('Erro ao obter músicas recentes:', error)
-      throw error
-    }
+    const response = await apiClient.get('/tracks/recent')
+    return response.data
+
   },
 
   getFavorites: async ({ page = 1, limit = 20 } = {}) => {
-    try {
-      const response = await apiClient.get('/curation/favorites', {
-        params: { page, limit }
-      })
-      return response.data
-    } catch (error) {
-      console.error('Erro ao obter favoritas:', error)
-      throw error
-    }
+    const response = await apiClient.get('/curation/favorites', {
+      params: { page, limit }
+    })
+    return response.data
+
   },
 
   addFavorite: async (trackData) => {
-    try {
-      const response = await apiClient.post('/curation/favorites', trackData)
-      return response.data
-    } catch (error) {
-      console.error('Erro ao adicionar favorita:', error)
-      throw error
-    }
+    const response = await apiClient.post('/curation/favorites', trackData)
+    return response.data
+
   },
 
   removeFavorite: async (spotifyTrackId) => {
-    try {
-      const response = await apiClient.delete(`/curation/favorites/${spotifyTrackId}`)
-      return response.data
-    } catch (error) {
-      console.error('Erro ao remover favorita:', error)
-      throw error
-    }
+    const response = await apiClient.delete(`/curation/favorites/${spotifyTrackId}`)
+    return response.data
+
   },
 
   checkFavorite: async (spotifyTrackId) => {
-    try {
-      const response = await apiClient.get(`/curation/favorites/check/${spotifyTrackId}`)
-      return response.data
-    } catch (error) {
-      console.error('Erro ao verificar favorita:', error)
-      throw error
-    }
+    const response = await apiClient.get(`/curation/favorites/check/${spotifyTrackId}`)
+    return response.data
+
   }
 }
 
 export const categoryService = {
   getCategories: async () => {
-    try {
-      const response = await apiClient.get('/curation/categories')
-      return response.data
-    } catch (error) {
-      console.error('Erro ao obter categorias:', error)
-      throw error
-    }
+    const response = await apiClient.get('/curation/categories')
+    return response.data
+
   },
 
   createCategory: async (categoryData) => {
-    try {
-      const response = await apiClient.post('/curation/categories', categoryData)
-      return response.data
-    } catch (error) {
-      console.error('Erro ao criar categoria:', error)
-      throw error
-    }
+    const response = await apiClient.post('/curation/categories', categoryData)
+    return response.data
+
   }
 }
 
 export const playlistService = {
   getUserPlaylists: async ({ limit = 20, offset = 0 } = {}) => {
-    try {
-      const response = await apiClient.get('/playlists', {
-        params: { limit, offset }
-      })
-      return response.data
-    } catch (error) {
-      console.error('Erro ao buscar playlists:', error)
-      throw error
-    }
+    const response = await apiClient.get('/playlists', {
+      params: { limit, offset }
+    })
+    return response.data
+
   },
 
   getPlaylistDetails: async (playlistId) => {
-    try {
-      const response = await apiClient.get(`/playlists/${playlistId}`)
-      return response.data
-    } catch (error) {
-      console.error('Erro ao buscar detalhes da playlist:', error)
-      throw error
-    }
+    const response = await apiClient.get(`/playlists/${playlistId}`)
+    return response.data
   },
 
   getPlaylistTracks: async (playlistId, { limit = 50, offset = 0 } = {}) => {
-    try {
-      const response = await apiClient.get(`/playlists/${playlistId}/tracks`, {
-        params: { limit, offset }
-      })
-      return response.data
-    } catch (error) {
-      console.error('Erro ao buscar faixas da playlist:', error)
-      throw error
-    }
+    const response = await apiClient.get(`/playlists/${playlistId}/tracks`, {
+      params: { limit, offset }
+    })
+    return response.data
   }
 }
 
